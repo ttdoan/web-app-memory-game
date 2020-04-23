@@ -1,14 +1,30 @@
+// React
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
+// Redux
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "./redux/reducers";
+// React components
+import GameConfig from "./components/GameConfig";
+import Board from "./components/Board";
+// Dependencies
+import "./../css/style.css";
 
-class Website extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return <></>;
-  }
+function Website() {
+  return (
+    <>
+      <GameConfig />
+      <Board />
+    </>
+  );
 }
 
-ReactDOM.render(<Website />, document.getElementById("react-container"));
+const store = createStore(rootReducer);
+
+render(
+  <Provider store={store}>
+    <Website />
+  </Provider>,
+  document.getElementById("react-container")
+);

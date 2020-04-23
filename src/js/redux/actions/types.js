@@ -1,0 +1,31 @@
+const gameFsm = {
+  IDLE: "IDLE",
+  PLAY: "PLAY",
+  PAUSE: "PAUSE",
+  RESUME: "RESUME"
+};
+
+const SET_MEM_TIME = "SET_MEM_TIME";
+const INCREMENT_TIMER = "INCREMENT_TIMER";
+const RESET_TIMER = "RESET_TIMER";
+
+const MATCH = "MATCH";
+const matchResult = {
+  MATCH_NO_RESULT: "MATCH_NO_RESULT",
+  MATCH_SUCCESS: "MATCH_SUCCESS",
+  MATCH_FAILURE: "MATCH_FAILURE"
+};
+
+const INIT_CONFIG = "INIT_CONFIG";
+const SET_CONFIG = "SET_CONFIG";
+
+export {
+  gameFsm,
+  INCREMENT_TIMER,
+  RESET_TIMER,
+  MATCH,
+  matchResult,
+  SET_MEM_TIME,
+  INIT_CONFIG,
+  SET_CONFIG
+};
