@@ -14,12 +14,11 @@ function Timer(props) {
 
   function start() {
     let time = document.getElementById("memorizeTime");
-    let pairs = document.getElementById("numPairs");
 
     setMode(gameFsm.PAUSE);
     props.setMemTime(time.value);
     // Setup the board
-    props.startGame(pairs.value);
+    props.startGame();
     setInternalInterval(
       setInterval(() => {
         props.incrementTimer();
@@ -76,7 +75,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  startGame: pairs => dispatch(playGame(pairs)),
+  startGame: () => dispatch(playGame()),
   pauseGame: () => dispatch(pauseGame()),
   resumeGame: () => dispatch(resumeGame()),
   setMemTime: time => dispatch(setMemTime(time)),

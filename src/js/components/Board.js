@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import MatchItem from "./MatchItem";
-import { gameFsm } from "./../../js/redux/actions/types";
+import { gameFsm } from "./../redux/actions/types";
+import { setPairs } from "./../redux/actions/game-actions";
 // Font Awesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -78,7 +79,11 @@ function Board(props) {
   const [board, makeBoard] = useState([]);
 
   useEffect(() => {
-    if (props.makeBoard) makeBoard(randomizeIcons(available, 8));
+    if (props.makeBoard) {
+      let pairs = document.getElementById("numPairs");
+      makeBoard(randomizeIcons(available, pairs.value));
+      props.setPairs(pairs.value);
+    }
   }, [props.makeBoard]);
   console.log("rendering BOARD");
   return (
@@ -96,4 +101,8 @@ const mapStateToProps = state => ({
   makeBoard: state.game.fsm == gameFsm.PLAY
 });
 
-export default connect(mapStateToProps, null)(Board);
+const mapDispatchToProps = dispatch => ({
+  setPairs: pairs => dispatch(setPairs(pairs))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

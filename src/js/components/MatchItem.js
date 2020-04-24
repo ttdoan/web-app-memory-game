@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
 import { selectMatch } from "./../redux/actions/match-actions";
+import { decrementCount } from "./../redux/actions/game-actions";
 import { gameFsm, matchResult } from "./../redux/actions/types";
 
 const classIdx = {
@@ -12,7 +13,7 @@ const classIdx = {
 };
 
 function MatchItem(props) {
-  const [active, setActive] = useState(false);
+  const [matched, setMatched] = useState(false);
   const [classes, setClasses] = useState(
     Object.keys(classIdx).map(prop => {
       return prop == "disabled" ? prop : undefined;
@@ -20,12 +21,8 @@ function MatchItem(props) {
   );
 
   function clicked() {
+    props.selectMatch(props.icon[1], props.id);
     setClasses(["disabled"]);
-  }
-
-  function transitionEnd() {
-    if (active) props.selectMatch(props.icon[1], props.id);
-    else setActive(true);
   }
 
   useEffect(() => {
@@ -33,24 +30,31 @@ function MatchItem(props) {
   }, [props.memOver]);
 
   useEffect(() => {
-    if (props.matchSuccess) {
-      // add animation
-      console.log("MATCH SUCCESS");
-      setClasses(["disabled", "correct-match"]);
-    } else if (props.matchFailure) {
-      // add animation
-      console.log("MATCH FAILURE");
-      setClasses(["flipped", "incorrect-match"]);
-    }
-  }, [props.matchSuccess, props.matchFailure]);
+    if (!matched)
+      if (props.matchSuccess && props.selected) {
+        setClasses(["disabled", "correct-match"]);
+        setMatched(true);
+        props.decrementCount();
+      } else if (props.matchFailure) {
+        if (props.selected) {
+          setTimeout(() => {
+            setClasses(["disabled", "flipped", "incorrect-match"]);
+            setTimeout(() => setClasses(["flipped"]), 1950);
+          }, 600);
+        } else {
+          setClasses(["disabled", "flipped"]);
+          setTimeout(() => setClasses(["flipped"]), 1350);
+        }
+      }
+  }, [matched, props.selected, props.matchSuccess, props.matchFailure]);
 
-  console.log(
-    `rendering matchitem: NAME = ${props.icon[1]}, ID: = ${props.id}`
-  );
+  // console.log(
+  //   `rendering matchitem: NAME = ${props.icon[1]}, ID: = ${props.id}`
+  // );
+  console.log(`rendering matchitem`);
   return (
     <li
       className={"match-item-container " + classes.join(" ")}
-      onTransitionEnd={transitionEnd}
       onClick={clicked}
       onKeyDown={clicked}
     >
@@ -65,19 +69,18 @@ MatchItem.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  matchSuccess:
-    state.match.result === matchResult.MATCH_SUCCESS &&
-    (state.match.firstMatchId === props.id ||
-      state.match.secondMatchId === props.id),
-  matchFailure:
-    state.match.result === matchResult.MATCH_FAILURE &&
-    (state.match.firstMatchId === props.id ||
-      state.match.secondMatchId === props.id),
-  memOver: state.timer.second >= state.timer.memTime
+  matchSuccess: state.match.result === matchResult.MATCH_SUCCESS,
+  matchFailure: state.match.result === matchResult.MATCH_FAILURE,
+  selected:
+    state.match.firstMatchId === props.id ||
+    state.match.secondMatchId === props.id,
+  memOver: state.timer.second >= state.timer.memTime,
+  gamePaused: state.game.fsm == gameFsm.PAUSE
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectMatch: (name, id) => dispatch(selectMatch(name, id))
+  selectMatch: (name, id) => dispatch(selectMatch(name, id)),
+  decrementCount: () => dispatch(decrementCount())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MatchItem);

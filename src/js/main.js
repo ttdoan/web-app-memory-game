@@ -8,6 +8,7 @@ import rootReducer from "./redux/reducers";
 // React components
 import GameConfig from "./components/GameConfig";
 import Board from "./components/Board";
+import Congrats from "./components/Congrats";
 // Dependencies
 import "./../css/style.css";
 
@@ -15,6 +16,7 @@ function Website() {
   return (
     <>
       <GameConfig />
+      <Congrats />
       <Board />
     </>
   );
