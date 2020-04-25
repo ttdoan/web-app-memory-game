@@ -1,48 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   playGame,
   pauseGame,
-  resumeGame
+  resumeGame,
+  resetGame
 } from "./../redux/actions/game-actions";
-import { setMemTime, incrementTimer } from "./../redux/actions/timer-actions";
+import {
+  setMemTime,
+  incrementTimer,
+  resetTimer
+} from "./../redux/actions/timer-actions";
 import { gameFsm } from "./../redux/actions/types";
 
 function Timer(props) {
   const [interval, setInternalInterval] = useState();
-  const [mode, setMode] = useState(gameFsm.PLAY);
+
+  function startTimer() {
+    setInternalInterval(
+      setInterval(() => {
+        props.incrementTimer();
+      }, 1000)
+    );
+  }
+
+  function stopTimer() {
+    clearInterval(interval);
+  }
 
   function start() {
     let time = document.getElementById("memorizeTime");
 
-    setMode(gameFsm.PAUSE);
+    props.resetTimer();
     props.setMemTime(time.value);
     // Setup the board
     props.startGame();
-    setInternalInterval(
-      setInterval(() => {
-        props.incrementTimer();
-      }, 1000)
-    );
+    startTimer();
   }
 
   function pause() {
-    clearInterval(interval);
-    setMode(gameFsm.RESUME);
+    stopTimer();
     props.pauseGame();
   }
 
   function resume() {
-    setInternalInterval(
-      setInterval(() => {
-        props.incrementTimer();
-      }, 1000)
-    );
-    setMode(gameFsm.PAUSE);
+    startTimer();
     props.resumeGame();
   }
 
-  // if (props.timer.second == props.timer.memTime) props.disableMemTime();
+  function click() {
+    switch (props.fsm) {
+      case gameFsm.IDLE:
+      case gameFsm.FINISHED:
+        start();
+        break;
+
+      case gameFsm.PLAY:
+      case gameFsm.RESUME:
+        pause();
+        break;
+
+      case gameFsm.PAUSE:
+        resume();
+        break;
+    }
+  }
+
+  useEffect(() => {
+    if (props.fsm == gameFsm.FINISHED) {
+      stopTimer();
+    }
+  }, [props.fsm]);
 
   // console.log("rendering timer");
   return (
@@ -55,14 +83,10 @@ function Timer(props) {
           (props.timer.second % 60) +
           "secs"}
       </p>
-      <button
-        onClick={
-          mode == gameFsm.PLAY ? start : mode == gameFsm.PAUSE ? pause : resume
-        }
-      >
-        {mode == gameFsm.PLAY
+      <button onClick={click}>
+        {props.fsm == gameFsm.IDLE || props.fsm == gameFsm.FINISHED
           ? "PLAY"
-          : mode == gameFsm.PAUSE
+          : props.fsm == gameFsm.PLAY || props.fsm == gameFsm.RESUME
           ? "PAUSE"
           : "RESUME"}
       </button>
@@ -71,15 +95,18 @@ function Timer(props) {
 }
 
 const mapStateToProps = state => ({
-  timer: state.timer
+  timer: state.timer,
+  fsm: state.game.fsm
 });
 
 const mapDispatchToProps = dispatch => ({
   startGame: () => dispatch(playGame()),
   pauseGame: () => dispatch(pauseGame()),
   resumeGame: () => dispatch(resumeGame()),
+  resetGame: () => dispatch(resetGame()),
   setMemTime: time => dispatch(setMemTime(time)),
-  incrementTimer: () => dispatch(incrementTimer())
+  incrementTimer: () => dispatch(incrementTimer()),
+  resetTimer: () => dispatch(resetTimer())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

@@ -21,6 +21,8 @@ let available = {
   ]
 };
 
+let _key = true;
+
 function randomizeIcons(icons, num) {
   let arr = [];
   let errMsg = [];
@@ -78,19 +80,28 @@ function shuffle(arr) {
 function Board(props) {
   const [board, makeBoard] = useState([]);
 
+  const createBoard = () => {
+    let pairs = document.getElementById("numPairs");
+    makeBoard(randomizeIcons(available, pairs.value));
+    props.setPairs(pairs.value);
+    _key = !_key;
+  };
+
   useEffect(() => {
-    if (props.makeBoard) {
-      let pairs = document.getElementById("numPairs");
-      makeBoard(randomizeIcons(available, pairs.value));
-      props.setPairs(pairs.value);
+    if (props.play) {
+      // let pairs = document.getElementById("numPairs");
+      // makeBoard(randomizeIcons(available, pairs.value));
+      // props.setPairs(pairs.value);
+      createBoard();
     }
-  }, [props.makeBoard]);
+  }, [props.play]);
+
   console.log("rendering BOARD");
   return (
     <>
       <ul className="board">
         {board.map((item, idx) => {
-          return <MatchItem key={item + idx} id={idx} icon={item} />;
+          return <MatchItem key={item[1] + _key} id={idx} icon={item} />;
         })}
       </ul>
     </>
@@ -98,7 +109,7 @@ function Board(props) {
 }
 
 const mapStateToProps = state => ({
-  makeBoard: state.game.fsm == gameFsm.PLAY
+  play: state.game.fsm == gameFsm.PLAY
 });
 
 const mapDispatchToProps = dispatch => ({

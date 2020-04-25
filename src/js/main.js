@@ -12,7 +12,7 @@ import Congrats from "./components/Congrats";
 // Dependencies
 import "./../css/style.css";
 
-function Website() {
+function Game() {
   return (
     <>
       <GameConfig />
@@ -26,7 +26,7 @@ const store = createStore(rootReducer);
 
 render(
   <Provider store={store}>
-    <Website />
+    <Game />
   </Provider>,
   document.getElementById("react-container")
 );

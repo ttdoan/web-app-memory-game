@@ -7,18 +7,9 @@ import { selectMatch } from "./../redux/actions/match-actions";
 import { decrementCount } from "./../redux/actions/game-actions";
 import { gameFsm, matchResult } from "./../redux/actions/types";
 
-const classIdx = {
-  disabled: 0,
-  flipped: 1
-};
-
 function MatchItem(props) {
   const [matched, setMatched] = useState(false);
-  const [classes, setClasses] = useState(
-    Object.keys(classIdx).map(prop => {
-      return prop == "disabled" ? prop : undefined;
-    })
-  );
+  const [classes, setClasses] = useState(["disabled"]);
 
   function clicked() {
     props.selectMatch(props.icon[1], props.id);
@@ -30,7 +21,7 @@ function MatchItem(props) {
   }, [props.memOver]);
 
   useEffect(() => {
-    if (!matched)
+    if (!matched && props.memOver)
       if (props.matchSuccess && props.selected) {
         setClasses(["disabled", "correct-match"]);
         setMatched(true);
@@ -51,7 +42,7 @@ function MatchItem(props) {
   // console.log(
   //   `rendering matchitem: NAME = ${props.icon[1]}, ID: = ${props.id}`
   // );
-  console.log(`rendering matchitem`);
+  // console.log(`rendering matchitem`);
   return (
     <li
       className={"match-item-container " + classes.join(" ")}

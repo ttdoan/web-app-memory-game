@@ -11,6 +11,7 @@ let initialState = {
 
 const gameStatus = (state = initialState, action) => {
   switch (action.type) {
+    case gameFsm.IDLE:
     case gameFsm.MEMORIZE:
     case gameFsm.PLAY:
     case gameFsm.PAUSE:
