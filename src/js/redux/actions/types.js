@@ -12,7 +12,10 @@ const SET_MEM_TIME = "SET_MEM_TIME";
 const INCREMENT_TIMER = "INCREMENT_TIMER";
 const RESET_TIMER = "RESET_TIMER";
 
-const MATCH = "MATCH";
+const matchActions = {
+  MATCH: "MATCH_MATCH",
+  RESET: "MATCH_REST"
+};
 const matchResult = {
   MATCH_NO_RESULT: "MATCH_NO_RESULT",
   MATCH_SUCCESS: "MATCH_SUCCESS",
@@ -28,7 +31,7 @@ export {
   SET_MATCH_PAIRS,
   INCREMENT_TIMER,
   RESET_TIMER,
-  MATCH,
+  matchActions,
   matchResult,
   SET_MEM_TIME,
   INIT_CONFIG,

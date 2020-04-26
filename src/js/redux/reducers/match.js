@@ -1,4 +1,4 @@
-import { MATCH, matchResult } from "./../actions/types";
+import { matchActions, matchResult } from "./../actions/types";
 
 const initialState = {
   firstMatchId: -1,
@@ -47,7 +47,10 @@ function matchItem(state, action) {
 
 const match = (state = initialState, action) => {
   switch (action.type) {
-    case MATCH:
+    case matchActions.RESET:
+      return initialState;
+
+    case matchActions.MATCH:
       return matchItem(state, action);
 
     default:

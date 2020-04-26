@@ -1,11 +1,15 @@
-import { MATCH } from "./types";
+import { matchActions } from "./types";
 
 const selectMatch = (name, id) => ({
-  type: MATCH,
+  type: matchActions.MATCH,
   item: {
     name,
     id
   }
 });
 
-export { selectMatch };
+const resetMatch = () => ({
+  type: matchActions.RESET
+});
+
+export { selectMatch, resetMatch };

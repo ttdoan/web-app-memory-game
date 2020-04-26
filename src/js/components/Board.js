@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import MatchItem from "./MatchItem";
 import { gameFsm } from "./../redux/actions/types";
 import { setPairs } from "./../redux/actions/game-actions";
+import { resetMatch } from "./../redux/actions/match-actions";
 // Font Awesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -20,8 +21,6 @@ let available = {
     "atom"
   ]
 };
-
-let _key = true;
 
 function randomizeIcons(icons, num) {
   let arr = [];
@@ -77,23 +76,34 @@ function shuffle(arr) {
   }
 }
 
+// NOTE: For some reason, when the board is re-randomized, some of the MatchItem's
+// are not unmounted, keeping their previous state. Need to clear the board to
+// unmount them properly to reset state.
+const _boardFsm = {
+  DO_NOTHING: "DO_NOTHING",
+  CLEAR_BOARD: "CLEAR_BOARD",
+  CREATE_BOARD: "CREATE_BOARD"
+};
+
 function Board(props) {
   const [board, makeBoard] = useState([]);
-
-  const createBoard = () => {
-    let pairs = document.getElementById("numPairs");
-    makeBoard(randomizeIcons(available, pairs.value));
-    props.setPairs(pairs.value);
-    _key = !_key;
-  };
+  const [boardState, setBoardState] = useState(_boardFsm.DO_NOTHING);
 
   useEffect(() => {
-    if (props.play) {
-      // let pairs = document.getElementById("numPairs");
-      // makeBoard(randomizeIcons(available, pairs.value));
-      // props.setPairs(pairs.value);
-      createBoard();
+    if (boardState == _boardFsm.CLEAR_BOARD) {
+      makeBoard([]);
+      setBoardState(_boardFsm.CREATE_BOARD);
+    } else if (boardState == _boardFsm.CREATE_BOARD) {
+      let pairs = document.getElementById("numPairs");
+      makeBoard(randomizeIcons(available, pairs.value));
+      props.setPairs(pairs.value);
+      props.resetMatch();
+      setBoardState(_boardFsm.DO_NOTHING);
     }
+  }, [makeBoard, boardState, props]);
+
+  useEffect(() => {
+    if (props.play) setBoardState(_boardFsm.CLEAR_BOARD);
   }, [props.play]);
 
   console.log("rendering BOARD");
@@ -101,7 +111,7 @@ function Board(props) {
     <>
       <ul className="board">
         {board.map((item, idx) => {
-          return <MatchItem key={item[1] + _key} id={idx} icon={item} />;
+          return <MatchItem key={idx} id={idx} icon={item} />;
         })}
       </ul>
     </>
@@ -113,7 +123,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setPairs: pairs => dispatch(setPairs(pairs))
+  setPairs: pairs => dispatch(setPairs(pairs)),
+  resetMatch: () => dispatch(resetMatch())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
