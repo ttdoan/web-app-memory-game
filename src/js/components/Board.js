@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import MatchItem from "./MatchItem";
 import { gameFsm } from "./../redux/actions/types";
@@ -9,6 +9,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 
 library.add(fas);
+
 let available = {
   fas: [
     "baby-carriage",
@@ -25,6 +26,11 @@ let available = {
 function randomizeIcons(icons, num) {
   let arr = [];
   let errMsg = [];
+
+  if (!num) {
+    console.log(num);
+    throw "ERROR: Number of pairs requested is not valid!";
+  }
 
   for (let prop in icons) {
     let set = new Set();
@@ -93,7 +99,9 @@ function Board(props) {
     if (boardState == _boardFsm.CLEAR_BOARD) {
       makeBoard([]);
       setBoardState(_boardFsm.CREATE_BOARD);
+      console.log("clearing board");
     } else if (boardState == _boardFsm.CREATE_BOARD) {
+      console.log("creating board");
       let pairs = document.getElementById("numPairs");
       makeBoard(randomizeIcons(available, pairs.value));
       props.setPairs(pairs.value);
@@ -119,7 +127,8 @@ function Board(props) {
 }
 
 const mapStateToProps = state => ({
-  play: state.game.fsm == gameFsm.PLAY
+  play: state.game.fsm == gameFsm.PLAY,
+  pairs: state.game.matchCountLeft / 2
 });
 
 const mapDispatchToProps = dispatch => ({

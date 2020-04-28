@@ -48,10 +48,7 @@ module.exports = {
           // Need Babel to convert JSX to JavaScript
           loader: "babel-loader",
           options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react"
-            ]
+            presets: ["@babel/preset-env", "@babel/preset-react"]
           }
         },
         exclude: /node_modules/
@@ -69,6 +66,19 @@ module.exports = {
         use: [
           {
             loader: "file-loader"
+          }
+        ]
+      },
+
+      {
+        test: /\.(woff(2)?|eot|ttf|otf)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "fonts/"
+            }
           }
         ]
       },

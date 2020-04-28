@@ -6,17 +6,15 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "./redux/reducers";
 // React components
-import GameConfig from "./components/GameConfig";
 import Board from "./components/Board";
-import Congrats from "./components/Congrats";
+import Dashboard from "./components/Dashboard";
 // Dependencies
 import "./../css/style.css";
 
 function Game() {
   return (
     <>
-      <GameConfig />
-      <Congrats />
+      <Dashboard />
       <Board />
     </>
   );

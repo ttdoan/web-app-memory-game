@@ -1,28 +1,33 @@
-import React from "react";
-// import { connect } from "react-redux";
-import Timer from "./Timer";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { gameFsm } from "./../redux/actions/types";
 
-export default function GameConfig() {
-  console.log("rendering gameconfig");
-
+function GameConfig() {
   return (
-    <>
-      <label htmlFor="numPairs">Number of Pairs:</label>
+    <div className={"game-config"}>
+      <label htmlFor="numPairs" className="col-2">
+        Number of Pairs:
+      </label>
       <select id="numPairs">
         <option value="1">1</option>
         <option value="8">8</option>
         <option value="9">9</option>
       </select>
-      <label htmlFor="memorizeTime">Memorize Time:</label>
+      <label htmlFor="memorizeTime" className="col-2">
+        Memorize Time:
+      </label>
       <select id="memorizeTime">
         <option value="5">5</option>
         <option value="10">10</option>
       </select>
-      <Timer />
-      {/* <Timer hour={hour} minute={minute} second={second} /> */}
-      {/* <button onClick={start}>Start Game!</button> */}
-    </>
+      <p className="score col-3">Best Score: {"12hrs 55mins 55secs"}</p>
+      <button className="col-3">Help</button>
+    </div>
   );
 }
 
-// export default connect()(GameConfig);
+const mapStateToProps = state => ({
+  gameIdle: state.game.fsm == gameFsm.IDLE
+});
+
+export default connect(mapStateToProps)(GameConfig);

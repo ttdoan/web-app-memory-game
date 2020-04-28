@@ -15,6 +15,7 @@ const gameStatus = (state = initialState, action) => {
     case gameFsm.MEMORIZE:
     case gameFsm.PLAY:
     case gameFsm.PAUSE:
+    case gameFsm.RESUME:
       return {
         fsm: action.type,
         matchCountLeft: state.matchCountLeft
