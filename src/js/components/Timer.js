@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { recordTime } from "./../redux/actions/timer-actions";
 
 function Timer(props) {
+  useEffect(() => {
+    if (props.gameFinished) props.recordTime();
+  }, [props.gameFinished]);
+
   console.log("rendering timer");
   return (
     <>
-      <div className="timer">
+      <div className="timer side-two">
         <p>
           {Math.floor(props.timer.second / 3600) +
             "hrs " +
@@ -23,4 +28,8 @@ const mapStateToProps = state => ({
   timer: state.timer
 });
 
-export default connect(mapStateToProps)(Timer);
+const mapDispatchToProps = dispatch => ({
+  recordTime: () => dispatch(recordTime())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

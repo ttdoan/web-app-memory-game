@@ -11,6 +11,7 @@ const SET_MATCH_PAIRS = "SET_MATCH_PAIRS";
 const SET_MEM_TIME = "SET_MEM_TIME";
 const INCREMENT_TIMER = "INCREMENT_TIMER";
 const RESET_TIMER = "RESET_TIMER";
+const RECORD_TIME = "RECORD_TIME";
 
 const matchActions = {
   MATCH: "MATCH_MATCH",
@@ -31,6 +32,7 @@ export {
   SET_MATCH_PAIRS,
   INCREMENT_TIMER,
   RESET_TIMER,
+  RECORD_TIME,
   matchActions,
   matchResult,
   SET_MEM_TIME,

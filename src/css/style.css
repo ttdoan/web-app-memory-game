@@ -35,19 +35,52 @@ p {
   transform-style: preserve-3d;
   transition: transform 0.6s;
   height: 86px;
-  border: solid red;
 }
 
-.flip-vertical {
-  transform: rotateX(180deg);
+.display-panel {
+}
+
+.congrats {
+  display: grid;
+  border: solid red;
+  height: 100%;
+  width: 100%;
+}
+
+.congrats p {
+  margin: 0;
+  padding: 0;
+}
+
+.side-one {
+  transform: rotateX(0deg);
+}
+
+.side-two {
+  transform: rotateX(120deg);
+}
+
+.side-three {
+  transform: rotateX(-120deg);
+}
+
+.flip-timer {
+  transform: rotateX(240deg);
+}
+
+.flip-congrats {
+  transform: rotateX(120deg);
 }
 
 .game-config {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   row-gap: 1.5px;
-  position: absolute;
   width: 100%;
+}
+
+.game-config * {
+  font-size: 15px;
 }
 
 .col-2 {
@@ -62,10 +95,6 @@ p {
   grid-column: span 3;
 }
 
-.game-config * {
-  font-size: 15px;
-}
-
 .score {
   margin: 0;
 }
@@ -74,16 +103,16 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  transform: rotateX(180deg);
   background-color: #e5f720;
-  height: 100%;
   width: 100%;
   font-size: 30px;
 }
 
 .game-config,
+.congrats,
 .timer {
+  height: 100%;
+  position: absolute;
   -moz-backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
