@@ -8,7 +8,7 @@ export default function GameConfig(props) {
         Number of Pairs:
       </label>
       <select id="numPairs">
-        <option value="1">1</option>
+        {/* <option value="1">1</option> */}
         <option value="8">8</option>
         <option value="9">9</option>
       </select>

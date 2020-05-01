@@ -10,6 +10,7 @@ import Board from "./components/Board";
 import Dashboard from "./components/Dashboard";
 // Dependencies
 import "./../css/style.css";
+import "./../scss/board.scss";
 
 function Game() {
   return (
