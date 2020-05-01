@@ -12,6 +12,10 @@
   box-sizing: inherit;
 }
 
+body {
+  background-color: black;
+}
+
 .hidden {
   visibility: hidden;
 }
@@ -22,6 +26,11 @@ option,
 select,
 p {
   font-family: "Niagaraphobia";
+  color: white;
+}
+
+svg {
+  color: white;
 }
 
 .dashboard {
@@ -117,8 +126,7 @@ p {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-
-select {
+/border- select {
   text-align: center;
 }
 

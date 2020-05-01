@@ -49,8 +49,10 @@ function MatchItem(props) {
       onClick={clicked}
       onKeyDown={clicked}
     >
-      <div className="back-item"></div>
-      <FontAwesomeIcon className={"match-item "} icon={props.icon} />
+      <div className="back-item">
+        <FontAwesomeIcon icon={["far", "question-circle"]} />
+      </div>
+      <FontAwesomeIcon className="match-item" icon={props.icon} />
     </li>
   );
 }

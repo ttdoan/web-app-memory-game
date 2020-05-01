@@ -1,6 +1,7 @@
+$back-item-border-width: 2px;
 $match-item-size: 60px;
 $match-item-border-radius: 25px;
-$row-gap: 10px;
+$row-gap: 12px;
 $board-margin-top: 16px;
 $icon-size: $match-item-size/2;
 
@@ -26,7 +27,7 @@ $icon-size: $match-item-size/2;
   justify-items: center;
   transition: transform 0.6s;
   cursor: pointer;
-  background-color: teal;
+  background-color: turquoise;
   border-radius: $match-item-border-radius;
 }
 
@@ -39,17 +40,17 @@ $icon-size: $match-item-size/2;
   -moz-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: $match-item-border-radius;
-}
-
-.match-item {
   font-size: $icon-size;
+  box-sizing: border-box;
 }
 
 .back-item {
-  background-color: yellow;
-  color: yellow;
-  border: solid orange;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: teal;
   transform: rotateY(180deg);
+  border: solid orange $back-item-border-width;
 }
 
 .flipped {
@@ -62,8 +63,7 @@ $icon-size: $match-item-size/2;
 
 .correct-match {
   cursor: default;
-  background: #e5f720;
-  /* font-size: 33px; */
+  background: green;
   animation-name: rubberBand;
   -webkit-backface-visibility: visible !important;
   backface-visibility: visible !important;
@@ -72,7 +72,6 @@ $icon-size: $match-item-size/2;
 
 .incorrect-match {
   animation-name: pulse;
-  /* animation-duration: 0.75s; */
   animation-duration: 1.35s;
   background: #e2043b;
   animation-fill-mode: none;
@@ -142,81 +141,20 @@ $icon-size: $match-item-size/2;
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-  .board {
-    justify-items: center;
-  }
-
-  .match-item-container {
-    width: $match-item-size * 1.5;
-    height: $match-item-size * 1.5;
-    border-radius: $match-item-border-radius * 1.5;
-  }
-
-  .match-item,
-  .back-item {
-    border-radius: $match-item-border-radius * 1.5;
-  }
-
-  .match-item {
-    font-size: $icon-size * 1.5;
-  }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-  .match-item-container {
-    width: $match-item-size * 2;
-    height: $match-item-size * 2;
-    border-radius: $match-item-border-radius * 2;
-  }
-
-  .match-item,
-  .back-item {
-    border-radius: $match-item-border-radius * 2;
-  }
-
-  .match-item {
-    font-size: $icon-size * 2;
-  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-  .match-item-container {
-    width: $match-item-size * 2.5;
-    height: $match-item-size * 2.5;
-    border-radius: $match-item-border-radius * 2.5;
-  }
-
-  .match-item,
-  .back-item {
-    border-radius: $match-item-border-radius * 2.5;
-  }
-
-  .match-item {
-    font-size: $icon-size * 2.5;
-  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
   .board {
     max-width: 1200px;
-  }
-
-  .match-item-container {
-    width: $match-item-size * 3;
-    height: $match-item-size * 3;
-    border-radius: $match-item-border-radius * 3;
-  }
-
-  .match-item,
-  .back-item {
-    border-radius: $match-item-border-radius * 3;
-  }
-
-  .match-item {
-    font-size: $icon-size * 3;
   }
 }
 
@@ -234,15 +172,17 @@ $multipliers: 1.5 2 2.5 3;
       width: $match-item-size * nth($multipliers, $i);
       height: $match-item-size * nth($multipliers, $i);
       border-radius: $match-item-border-radius * nth($multipliers, $i);
+      box-sizing: border-box;
     }
 
     .match-item,
     .back-item {
       border-radius: $match-item-border-radius * nth($multipliers, $i);
+      font-size: $icon-size * nth($multipliers, $i);
     }
 
-    .match-item {
-      font-size: $icon-size * nth($multipliers, $i);
+    .back-item {
+      border-width: $back-item-border-width * nth($multipliers, $i);
     }
   }
 }

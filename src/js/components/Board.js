@@ -7,8 +7,9 @@ import { resetMatch } from "./../redux/actions/match-actions";
 // Font Awesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 
-library.add(fas);
+library.add(fas, faQuestionCircle);
 
 let available = {
   fas: [
