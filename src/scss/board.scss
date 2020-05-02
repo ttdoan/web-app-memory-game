@@ -5,6 +5,10 @@ $row-gap: 12px;
 $board-margin-top: 16px;
 $icon-size: $match-item-size/2;
 
+svg {
+  color: white;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -50,7 +54,7 @@ $icon-size: $match-item-size/2;
   align-items: center;
   background-color: teal;
   transform: rotateY(180deg);
-  border: solid orange $back-item-border-width;
+  border: solid gold $back-item-border-width;
 }
 
 .flipped {

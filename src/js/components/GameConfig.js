@@ -3,7 +3,7 @@ import React from "react";
 export default function GameConfig(props) {
   console.log("rendering gameconfig");
   return (
-    <div className={"game-config side-one"}>
+    <div className={"game-config"}>
       <label htmlFor="numPairs" className="col-2">
         Number of Pairs:
       </label>
@@ -20,7 +20,7 @@ export default function GameConfig(props) {
         <option value="10">10</option>
       </select>
       <p className="score col-3">Best Score: {" " + props.getBestScore()}</p>
-      <button className="col-3">Help</button>
+      <button className="col-3 help">Help</button>
     </div>
   );
 }

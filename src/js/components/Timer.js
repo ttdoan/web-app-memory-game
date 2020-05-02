@@ -10,7 +10,7 @@ function Timer(props) {
   console.log("rendering timer");
   return (
     <>
-      <div className="timer side-two">
+      <div className="timer">
         <p>
           {Math.floor(props.timer.second / 3600) +
             "hrs " +

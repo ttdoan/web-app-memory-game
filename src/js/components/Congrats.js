@@ -4,7 +4,7 @@ export default function Congrats(props) {
   console.log("rendering congrats");
   return (
     <>
-      <div className="congrats side-three">
+      <div className="congrats">
         <p>Congratulations</p>
         <p>Score: {props.getScore()}</p>
         <p>
