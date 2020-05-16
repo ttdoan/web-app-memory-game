@@ -12,8 +12,11 @@
   box-sizing: inherit;
 }
 
-body {
+#react-container {
+  width: 100vw;
+  height: 100vh;
   background-color: black;
+  overflow: hidden;
 }
 
 .hidden {
@@ -24,20 +27,14 @@ button,
 label,
 option,
 select,
+div,
 p {
   font-family: "Niagaraphobia";
   color: white;
 }
 
 button {
-  border-color: #575757;
   outline: none;
-}
-
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  margin: auto;
 }
 
 .col-2 {

@@ -1,20 +1,32 @@
 import React, { useState } from "react";
-import GameDisplay from "./GameDisplay";
-import GameControls from "./GameControls";
+import MenuButton from "./MenuButton";
+import OptionButton from "./OptionButton";
+import AboutTimeButton from "./AboutTimeButton";
 
 export default function Dashboard() {
-  const [pairsRef, setPairsRef] = useState(null);
-
-  function setRef(ref) {
-    console.log("setting ref");
-    setPairsRef(ref);
-  }
+  const [classes, setClasses] = useState([]);
+  const [showOptions, setShowOptions] = useState(false);
 
   return (
     <>
+      <div id="about">
+        <div className="close-button"></div>
+        <p>Thank you for trying my game!</p>
+      </div>
       <div className="dashboard">
-        <GameDisplay />
-        <GameControls />
+        <MenuButton name="START" classes={classes} />
+        <OptionButton
+          setClasses={setClasses}
+          setShowOptions={setShowOptions}
+          name={showOptions ? "BACK" : "OPTIONS"}
+          classes={classes}
+        />
+        <div className="button-container">
+          <AboutTimeButton
+            name={showOptions ? "MEMORIZE TIME" : "ABOUT"}
+            classes={classes}
+          />
+        </div>
       </div>
     </>
   );

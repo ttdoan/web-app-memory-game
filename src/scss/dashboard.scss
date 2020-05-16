@@ -1,0 +1,257 @@
+$menu-button-width: 56vw;
+$menu-button-height: 8vh;
+$menu-border-width: 0.5vh;
+
+.dashboard {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  box-sizing: border-box;
+  min-height: 100vh;
+  margin: auto;
+}
+
+.menu-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 1000px;
+  height: $menu-button-height;
+  width: $menu-button-width;
+  font-size: $menu-button-height/2;
+  color: white;
+  background-color: maroon;
+  border: solid gold $menu-border-width;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.menu-button::before {
+  content: "";
+  color: black;
+  height: 4vh;
+  width: 4vh;
+  top: calc(50% - 2vh);
+  background-color: gold;
+  border-radius: 100%;
+  position: absolute;
+  display: inline-block;
+  box-shadow: inset 0 0 0.5em white;
+  left: 1.5vh;
+  pointer-events: none;
+}
+
+// .menu-button::after {
+//   content: "";
+//   position: absolute;
+//   height: calc(8vh + 2vh);
+//   width: calc(56vw + 2vh);
+//   border-radius: 1000px;
+//   left: 50%;
+//   top: 50%;
+//   transform: translate(-50%, -50%);
+//   background-color: maroon;
+//   z-index: -1;
+//   pointer-events: none;
+// }
+
+.start {
+}
+
+/* .start::after {
+  content: "";
+  position: absolute;
+  color: black;
+  width: 2em;
+  height: 2em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  border: 6px solid black;
+  animation: ring 1.5s infinite;
+  z-index: -1;
+} */
+
+/* .start::after {
+  content: "";
+  position: absolute;
+  color: black;
+  width: 2em;
+  height: 2em;
+  top: 0%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  border: 6px solid black;
+  animation: ring 1.5s infinite;
+  z-index: -1;
+} */
+
+// @keyframes roll {
+//   50% {
+//     width: $menu-button-height;
+//     letter-spacing: $menu-button-height * 1.5;
+//   }
+
+//   100% {
+//     width: $menu-button-width;
+//   }
+// }
+
+@keyframes roll {
+  100% {
+    width: $menu-button-height;
+    letter-spacing: $menu-button-height * 1.5;
+  }
+}
+
+@keyframes unroll {
+  0% {
+    width: $menu-button-height;
+    letter-spacing: $menu-button-height * 1.5;
+  }
+  100% {
+    width: $menu-button-width;
+    letter-spacing: 0;
+  }
+}
+
+@keyframes expand {
+  0% {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: $menu-button-height;
+    letter-spacing: $menu-button-height * 1.5;
+  }
+
+  100% {
+    position: absolute;
+    border-radius: 0;
+    transform: translate(-50%, -50%);
+    // width: 200vw;
+    // height: 200vh;
+    transform: scale(21);
+    background-color: teal;
+  }
+}
+
+@keyframes shrink {
+  0% {
+    position: absolute;
+    border-radius: 0;
+    transform: translate(-50%, -50%);
+    width: 200vw;
+    height: 200vh;
+  }
+
+  100% {
+    position: relative;
+    width: $menu-button-height;
+    letter-spacing: $menu-button-height * 1.5;
+  }
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes unwrap {
+  0% {
+    overflow: hidden;
+  }
+
+  100% {
+    overflow: visible;
+  }
+}
+
+.full-roll {
+  animation-name: roll, unroll;
+  animation-duration: 750ms, 750ms;
+  animation-delay: 0ms, 750ms;
+  animation-fill-mode: forwards, forwards;
+}
+
+.modal-overlay {
+  animation-name: roll, unwrap;
+  animation-duration: 750ms, 0ms;
+  animation-delay: 0ms, 750ms;
+  animation-fill-mode: forwards, forwards;
+}
+
+.modal-overlay::before {
+  animation-name: expand;
+  animation-duration: 750ms;
+  animation-delay: 750ms;
+  animation-fill-mode: forwards;
+}
+
+.modal-overlay span {
+  animation-name: hide;
+  animation-duration: 0ms;
+  animation-delay: 750ms;
+  animation-fill-mode: forwards;
+}
+
+#about {
+  z-index: 5;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  font-size: 4vh;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+.close-button {
+  position: fixed;
+  top: 2vw;
+  right: 2vw;
+  width: 5vh;
+  height: 5vh;
+  border-radius: 1000px;
+  background-color: white;
+}
+
+.visible {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.disabled {
+  pointer-events: none;
+}
+
+.stacked {
+  position: absolute;
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}
