@@ -4,27 +4,44 @@ import OptionButton from "./OptionButton";
 import AboutTimeButton from "./AboutTimeButton";
 
 export default function Dashboard() {
-  const [classes, setClasses] = useState([]);
+  const [firstBtnClasses, setFirstBtnClasses] = useState([]);
+  const [secondBtnClasses, setSecBtnClasses] = useState([]);
+  const [thirdBtnClasses, setThrdBtnClasses] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
+
+  function closeAbout() {
+    // let ele = document.querySelector(".modal-overlay");
+    // ele.classList.add("modal-retract");
+    // ele.classList.remove("modal-overlay");
+    setThrdBtnClasses(["modal-retract"]);
+    // setTimeout(() => {
+    //   // ele.classList.remove("modal-retract");
+    //   setThrdBtnClasses(["modal-retract"]);
+    // }, 750);
+
+    let about = document.getElementById("about");
+    about.classList.toggle("visible");
+  }
 
   return (
     <>
       <div id="about">
-        <div className="close-button"></div>
+        <div onClick={closeAbout} className="close-button"></div>
         <p>Thank you for trying my game!</p>
       </div>
       <div className="dashboard">
-        <MenuButton name="START" classes={classes} />
+        <MenuButton name="START" classes={firstBtnClasses} />
         <OptionButton
-          setClasses={setClasses}
+          setClasses={[setFirstBtnClasses, setSecBtnClasses, setThrdBtnClasses]}
           setShowOptions={setShowOptions}
           name={showOptions ? "BACK" : "OPTIONS"}
-          classes={classes}
+          classes={secondBtnClasses}
         />
         <div className="button-container">
           <AboutTimeButton
+            setClass={setThrdBtnClasses}
             name={showOptions ? "MEMORIZE TIME" : "ABOUT"}
-            classes={classes}
+            classes={thirdBtnClasses}
           />
         </div>
       </div>

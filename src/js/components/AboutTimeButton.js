@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import MenuButton from "./MenuButton";
 
 export default function AboutTimeButton(props) {
-  const [classes, setClasses] = useState([]);
+  // const [classes, setClasses] = useState([]);
 
   function handleClick() {
     switch (props.name) {
       case "ABOUT":
-        setClasses(["modal-overlay"]);
+        console.log("PRESSING ABOUT");
+        // setClasses(["modal-overlay"]);
+        props.setClass(["modal-overlay"]);
         revealAbout();
         break;
 
@@ -29,7 +31,8 @@ export default function AboutTimeButton(props) {
     <MenuButton
       name={props.name}
       handleClick={handleClick}
-      classes={[...props.classes, ...classes]}
+      // classes={[...props.classes, ...classes]}
+      classes={props.classes}
     />
   );
 }

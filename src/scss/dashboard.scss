@@ -58,6 +58,7 @@ $menu-border-width: 0.5vh;
     width: $menu-button-height;
     letter-spacing: $menu-button-height * 1.5;
   }
+
   100% {
     width: $menu-button-width;
     letter-spacing: 0;
@@ -69,7 +70,6 @@ $menu-border-width: 0.5vh;
     position: absolute;
     transform: translate(-50%, -50%);
     width: $menu-button-height;
-    letter-spacing: $menu-button-height * 1.5;
   }
 
   100% {
@@ -89,12 +89,14 @@ $menu-border-width: 0.5vh;
     transform: translate(-50%, -50%);
     width: 200vw;
     height: 200vh;
+    background-color: teal;
   }
 
   100% {
-    position: relative;
-    width: $menu-button-height;
-    letter-spacing: $menu-button-height * 1.5;
+    position: absolute;
+    width: 4vh;
+    height: 4vh;
+    background-color: gold;
   }
 }
 
@@ -108,6 +110,16 @@ $menu-border-width: 0.5vh;
   }
 }
 
+@keyframes reveal {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 @keyframes unwrap {
   0% {
     overflow: hidden;
@@ -115,6 +127,16 @@ $menu-border-width: 0.5vh;
 
   100% {
     overflow: visible;
+  }
+}
+
+@keyframes wrapp {
+  0% {
+    overflow: visible;
+  }
+
+  100% {
+    overflow: hidden;
   }
 }
 
@@ -146,9 +168,39 @@ $menu-border-width: 0.5vh;
   animation-fill-mode: forwards;
 }
 
+.modal-retract {
+  width: $menu-button-height;
+  letter-spacing: $menu-button-height * 1.5;
+  overflow: visible;
+  animation-name: wrapp, unroll;
+  animation-duration: 0s, 750ms;
+  animation-delay: 750ms;
+  animation-fill-mode: forwards;
+}
+
+.modal-retract:before {
+  position: absolute;
+  width: 200vw;
+  height: 200vh;
+  animation-name: shrink;
+  animation-duration: 750ms;
+  animation-delay: 0;
+  animation-fill-mode: forwards;
+}
+
+.modal-retract span {
+  opacity: 0;
+  animation-name: reveal;
+  animation-duration: 0ms;
+  animation-delay: 750ms;
+  animation-fill-mode: forwards;
+}
+
 #about {
   z-index: 5;
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   font-size: 4vh;
@@ -163,6 +215,8 @@ $menu-border-width: 0.5vh;
   right: 2vw;
   width: 5vh;
   height: 5vh;
+  // width: 0;
+  // height: 0;
   border-radius: 1000px;
   background-color: white;
 }
