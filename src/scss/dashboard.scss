@@ -46,65 +46,6 @@ $menu-border-width: 0.5vh;
   pointer-events: none;
 }
 
-// .menu-button::after {
-//   content: "";
-//   position: absolute;
-//   height: calc(8vh + 2vh);
-//   width: calc(56vw + 2vh);
-//   border-radius: 1000px;
-//   left: 50%;
-//   top: 50%;
-//   transform: translate(-50%, -50%);
-//   background-color: maroon;
-//   z-index: -1;
-//   pointer-events: none;
-// }
-
-.start {
-}
-
-/* .start::after {
-  content: "";
-  position: absolute;
-  color: black;
-  width: 2em;
-  height: 2em;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 100%;
-  border: 6px solid black;
-  animation: ring 1.5s infinite;
-  z-index: -1;
-} */
-
-/* .start::after {
-  content: "";
-  position: absolute;
-  color: black;
-  width: 2em;
-  height: 2em;
-  top: 0%;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 100%;
-  border: 6px solid black;
-  animation: ring 1.5s infinite;
-  z-index: -1;
-} */
-
-// @keyframes roll {
-//   50% {
-//     width: $menu-button-height;
-//     letter-spacing: $menu-button-height * 1.5;
-//   }
-
-//   100% {
-//     width: $menu-button-width;
-//   }
-// }
-
 @keyframes roll {
   100% {
     width: $menu-button-height;
@@ -135,9 +76,8 @@ $menu-border-width: 0.5vh;
     position: absolute;
     border-radius: 0;
     transform: translate(-50%, -50%);
-    // width: 200vw;
-    // height: 200vh;
-    transform: scale(21);
+    width: 200vw;
+    height: 200vh;
     background-color: teal;
   }
 }
