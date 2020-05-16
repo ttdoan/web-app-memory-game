@@ -36,8 +36,8 @@ $menu-border-width: 0.5vh;
   color: black;
   height: 4vh;
   width: 4vh;
-  top: 50%;
-  transform: translate(0, -50%);
+  // top: 50%;
+  // transform: translate(0, -50%);
   background-color: gold;
   border-radius: 100%;
   position: absolute;
@@ -69,16 +69,13 @@ $menu-border-width: 0.5vh;
 @keyframes expand {
   0% {
     position: absolute;
-    transform: translate(-50%, -50%);
-    width: $menu-button-height;
+    width: 4vh;
   }
 
   100% {
     position: absolute;
     border-radius: 0;
-    transform: translate(-50%, -50%);
-    width: 200vw;
-    height: 200vh;
+    transform: scale(50);
     background-color: teal;
   }
 }
@@ -87,9 +84,7 @@ $menu-border-width: 0.5vh;
   0% {
     position: absolute;
     border-radius: 0;
-    transform: translate(-50%, -50%);
-    width: 200vw;
-    height: 200vh;
+    transform: scale(50);
     background-color: teal;
   }
 
@@ -97,6 +92,7 @@ $menu-border-width: 0.5vh;
     position: absolute;
     width: 4vh;
     height: 4vh;
+    transform: scale(1);
     background-color: gold;
   }
 }
@@ -181,8 +177,6 @@ $menu-border-width: 0.5vh;
 
 .modal-retract:before {
   position: absolute;
-  width: 200vw;
-  height: 200vh;
   animation-name: shrink;
   animation-duration: 750ms;
   animation-delay: 0;
