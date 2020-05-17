@@ -8,11 +8,11 @@ export default function OptionButton(props) {
       props.setShowOptions(flag => ~flag);
     }, 750);
     setTimeout(() => {
-      // props.setClasses([]);
       props.setClasses.forEach(setClass => setClass([]));
     }, 1500);
   }
 
+  console.log("rendering option button");
   return (
     <MenuButton
       name={props.name}

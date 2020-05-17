@@ -10,14 +10,14 @@ export default function Dashboard() {
   const [showOptions, setShowOptions] = useState(false);
 
   function closeAbout() {
-    // let ele = document.querySelector(".modal-overlay");
-    // ele.classList.add("modal-retract");
-    // ele.classList.remove("modal-overlay");
+    // Removed class "disabled"
+    setFirstBtnClasses([]);
+    setSecBtnClasses([]);
+    // Add class for modal retraction animation
     setThrdBtnClasses(["modal-retract"]);
-    // setTimeout(() => {
-    //   // ele.classList.remove("modal-retract");
-    //   setThrdBtnClasses(["modal-retract"]);
-    // }, 750);
+    setTimeout(() => {
+      setThrdBtnClasses([]);
+    }, 1500);
 
     let about = document.getElementById("about");
     about.classList.toggle("visible");
@@ -37,13 +37,11 @@ export default function Dashboard() {
           name={showOptions ? "BACK" : "OPTIONS"}
           classes={secondBtnClasses}
         />
-        <div className="button-container">
-          <AboutTimeButton
-            setClass={setThrdBtnClasses}
-            name={showOptions ? "MEMORIZE TIME" : "ABOUT"}
-            classes={thirdBtnClasses}
-          />
-        </div>
+        <AboutTimeButton
+          setClasses={[setFirstBtnClasses, setSecBtnClasses, setThrdBtnClasses]}
+          name={showOptions ? "MEMORIZE" : "ABOUT"}
+          classes={thirdBtnClasses}
+        />
       </div>
     </>
   );

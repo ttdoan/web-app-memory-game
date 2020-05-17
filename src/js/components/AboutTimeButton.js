@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import MenuButton from "./MenuButton";
+import Ring from "./Ring";
+
+let memorizeTime = [5, 10, 15];
 
 export default function AboutTimeButton(props) {
-  // const [classes, setClasses] = useState([]);
+  const self = useRef(null);
 
   function handleClick() {
     switch (props.name) {
       case "ABOUT":
-        console.log("PRESSING ABOUT");
-        // setClasses(["modal-overlay"]);
-        props.setClass(["modal-overlay"]);
+        props.setClasses.forEach((setClass, idx) => {
+          if (idx == 2) setClass(["disabled", "modal-overlay"]);
+          else setClass(["disabled"]);
+        });
         revealAbout();
         break;
 
-      case "MEMORIZE TIME":
+      case "MEMORIZE":
+        props.setClasses[2](["memorize"]);
         break;
 
       default:
@@ -27,12 +32,28 @@ export default function AboutTimeButton(props) {
     }, 1200);
   }
 
+  useEffect(() => {
+    self.current.addEventListener("mousedown", () => {
+      console.log("down");
+    });
+
+    self.current.addEventListener("mouseup", () => {
+      console.log("up");
+    });
+  }, []);
+
+  console.log("rendering about/memorize button");
   return (
-    <MenuButton
-      name={props.name}
-      handleClick={handleClick}
-      // classes={[...props.classes, ...classes]}
-      classes={props.classes}
-    />
+    <div ref={self} className="button-container">
+      <MenuButton
+        name={props.name}
+        handleClick={handleClick}
+        classes={props.classes}
+      />
+      {memorizeTime.map((time, idx) => {
+        let deg = (360 / memorizeTime.length) * idx;
+        return <Ring key={time} option={time} deg={deg} />;
+      })}
+    </div>
   );
 }
