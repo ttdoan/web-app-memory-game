@@ -1,3 +1,4 @@
+// TODO: Need to constrain to max-width of 8em but it will affect animation...
 $menu-button-width: 56vw;
 $menu-button-height: 8vh;
 $menu-border-width: 0.5vh;
@@ -11,6 +12,10 @@ $inner-circle-diameter: $menu-button-height/2;
   box-sizing: border-box;
   min-height: 100vh;
   margin: auto;
+}
+
+.change {
+  transform: rotate(90deg) translate(100px) rotate(-90deg);
 }
 
 .menu-button {
@@ -30,6 +35,7 @@ $inner-circle-diameter: $menu-button-height/2;
   cursor: pointer;
   z-index: 1;
   box-sizing: border-box;
+  user-select: none;
 }
 
 .menu-button::before {
@@ -44,6 +50,8 @@ $inner-circle-diameter: $menu-button-height/2;
   box-shadow: inset 0 0 0.5em white;
   left: 1.5vh;
   pointer-events: none;
+  margin: 0;
+  padding: 0;
 }
 
 @keyframes roll {
@@ -74,7 +82,7 @@ $inner-circle-diameter: $menu-button-height/2;
   100% {
     position: absolute;
     border-radius: 0;
-    transform: scale(50);
+    transform: scale(100);
     background-color: teal;
   }
 }
@@ -83,7 +91,7 @@ $inner-circle-diameter: $menu-button-height/2;
   0% {
     position: absolute;
     border-radius: 0;
-    transform: scale(50);
+    transform: scale(100);
     background-color: teal;
   }
 
@@ -218,13 +226,6 @@ $inner-circle-diameter: $menu-button-height/2;
   justify-content: center;
 }
 
-// .memorize:active {
-//   animation-name: roll;
-//   animation-duration: 750ms;
-//   animation-delay: 0ms;
-//   animation-fill-mode: forwards;
-// }
-
 .ring {
   display: flex;
   justify-content: center;
@@ -235,6 +236,20 @@ $inner-circle-diameter: $menu-button-height/2;
   border: solid gold $menu-border-width;
   border-radius: 50%;
   font-size: 4vh;
+  transition: transform 750ms;
+}
+
+.expand-options {
+  transition: width 750ms, letter-spacing 750ms;
+}
+
+.expand-options:active {
+  width: $menu-button-height;
+  letter-spacing: $menu-button-height * 1.5;
+}
+
+.expand-options.expand-complete {
+  transition: width 750ms ease 750ms, letter-spacing 750ms ease 750ms;
 }
 
 .visible {

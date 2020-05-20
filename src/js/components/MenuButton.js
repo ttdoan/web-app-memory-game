@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 export default function MenuButton(props) {
+  const self = useRef(null);
+
   function onClick() {
-    props.handleClick(["roll", "disable"]);
+    props.onClick(["roll", "disable"]);
   }
 
   return (
@@ -17,10 +19,14 @@ export default function MenuButton(props) {
     //   </button>
     // );
     <div
+      ref={self}
       className={
         "menu-button " + (props.classes ? props.classes.join(" ") : "")
       }
       onClick={onClick}
+      onMouseDown={props.onMouseDown}
+      onAnimationEnd={props.onAnimationEnd}
+      onTransitionEnd={props.onTransitionEnd}
     >
       <span>{props.name}</span>
     </div>

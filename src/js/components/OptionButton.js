@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MenuButton from "./MenuButton";
 
 export default function OptionButton(props) {
-  function handleClick() {
+  function onClick() {
     props.setClasses.forEach(setClass => setClass(["full-roll", "disabled"]));
     setTimeout(() => {
       props.setShowOptions(flag => ~flag);
@@ -14,10 +14,6 @@ export default function OptionButton(props) {
 
   console.log("rendering option button");
   return (
-    <MenuButton
-      name={props.name}
-      handleClick={handleClick}
-      classes={props.classes}
-    />
+    <MenuButton name={props.name} onClick={onClick} classes={props.classes} />
   );
 }

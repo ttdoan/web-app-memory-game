@@ -1,45 +1,42 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
-export default function Ring({ deg, option }) {
-  //   const [x, setX] = useState(0);
-  //   const [y, setY] = useState(0);
-  const [animation, setAnimation] = useState(null);
+export default function Ring(props) {
   const ring = useRef(null);
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
 
   useEffect(() => {
-    let vh = Math.max(
-      document.documentElement.clientHeight,
-      window.innerHeight || 0
-    );
-    let dist = 0.08 * vh;
+    let info = ring.current.getBoundingClientRect();
+    setX(Math.floor(info.x));
+    setY(Math.floor(info.y));
 
-    let tmp = ring.current.animate(
-      [
-        { transform: `translate(0px, 0px)` },
-        {
-          transform: `rotate(${deg -
-            90}deg) translate(${dist}px) rotate(${(deg - 90) * -1}deg)`
-        }
-      ],
-      {
-        fill: "forwards",
-        duration: 750
-      }
-    );
+    console.log(`{
+     `);
 
-    setAnimation(tmp);
-    tmp.cancel();
+    let style = document.getElementById("mem-ring-ss");
+    style.sheet
+      .insertRule(`.expand-options.expand-complete:active ~ .mem-ring-${
+      props.id
+    } {
+      transform: rotate(${props.deg -
+        90}deg) translate(9vh) rotate(${(props.deg - 90) * -1}deg)
+    }`);
   }, []);
 
-  function click() {
-    console.log(animation);
-    animation.play();
+  function onTransitionEnd() {
+    let info = ring.current.getBoundingClientRect();
+    if (x === Math.floor(info.x) && y === Math.floor(info.y))
+      props.setParentClass(["expand-options"]);
   }
 
   return (
-    <div ref={ring} onClick={click} className="ring">
-      {option}
+    <div
+      ref={ring}
+      onTransitionEnd={onTransitionEnd}
+      className={"ring" + ` mem-ring-${props.id}`}
+    >
+      {props.option}
     </div>
   );
 }

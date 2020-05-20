@@ -7,7 +7,7 @@ let memorizeTime = [5, 10, 15];
 export default function AboutTimeButton(props) {
   const self = useRef(null);
 
-  function handleClick() {
+  function onClick() {
     switch (props.name) {
       case "ABOUT":
         props.setClasses.forEach((setClass, idx) => {
@@ -18,7 +18,6 @@ export default function AboutTimeButton(props) {
         break;
 
       case "MEMORIZE":
-        props.setClasses[2](["memorize"]);
         break;
 
       default:
@@ -32,27 +31,49 @@ export default function AboutTimeButton(props) {
     }, 1200);
   }
 
-  useEffect(() => {
-    self.current.addEventListener("mousedown", () => {
-      console.log("down");
-    });
+  function onMouseDown() {
+    if (props.name == "MEMORIZE") {
+      props.setClasses[2](["expand-options"]);
+    }
+  }
 
-    self.current.addEventListener("mouseup", () => {
-      console.log("up");
-    });
-  }, []);
+  function onTransitionEnd(e) {
+    if (props.name == "MEMORIZE") {
+      let btnWidth = Math.floor(
+        Math.max(
+          document.documentElement.clientHeight,
+          window.innerHeight || 0
+        ) * 0.08
+      );
+
+      let info = e.target.getBoundingClientRect();
+      if (Math.floor(info.width) === btnWidth)
+        props.setClasses[2](["expand-options", "expand-complete"]);
+      else props.setClasses[2](["expand-options"]);
+    }
+  }
 
   console.log("rendering about/memorize button");
   return (
     <div ref={self} className="button-container">
       <MenuButton
         name={props.name}
-        handleClick={handleClick}
+        onClick={onClick}
+        onMouseDown={onMouseDown}
+        onTransitionEnd={onTransitionEnd}
         classes={props.classes}
       />
       {memorizeTime.map((time, idx) => {
         let deg = (360 / memorizeTime.length) * idx;
-        return <Ring key={time} option={time} deg={deg} />;
+        return (
+          <Ring
+            key={time}
+            option={time}
+            deg={deg}
+            id={idx}
+            setParentClass={props.setClasses[2]}
+          />
+        );
       })}
     </div>
   );

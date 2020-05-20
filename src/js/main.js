@@ -24,6 +24,11 @@ function Game() {
 
 const store = createStore(rootReducer);
 
+let style = document.getElementById("mem-ring-ss");
+style = document.createElement("style");
+style.id = "mem-ring-ss";
+document.body.appendChild(style);
+
 render(
   <Provider store={store}>
     <Game />

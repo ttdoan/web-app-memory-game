@@ -10,12 +10,12 @@ export default function Dashboard() {
   const [showOptions, setShowOptions] = useState(false);
 
   function closeAbout() {
-    // Removed class "disabled"
-    setFirstBtnClasses([]);
-    setSecBtnClasses([]);
     // Add class for modal retraction animation
     setThrdBtnClasses(["modal-retract"]);
     setTimeout(() => {
+      // Removed class "disabled"
+      setFirstBtnClasses([]);
+      setSecBtnClasses([]);
       setThrdBtnClasses([]);
     }, 1500);
 
