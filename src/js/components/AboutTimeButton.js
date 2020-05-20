@@ -37,7 +37,7 @@ export default function AboutTimeButton(props) {
     }
   }
 
-  function onTransitionEnd(e) {
+  function onTransitionEnd() {
     if (props.name == "MEMORIZE") {
       let btnWidth = Math.floor(
         Math.max(
@@ -46,7 +46,7 @@ export default function AboutTimeButton(props) {
         ) * 0.08
       );
 
-      let info = e.target.getBoundingClientRect();
+      let info = self.current.getBoundingClientRect();
       if (Math.floor(info.width) === btnWidth)
         props.setClasses[2](["expand-options", "expand-complete"]);
       else props.setClasses[2](["expand-options"]);

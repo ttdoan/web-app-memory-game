@@ -11,16 +11,10 @@ export default function Ring(props) {
     setX(Math.floor(info.x));
     setY(Math.floor(info.y));
 
-    console.log(`{
-     `);
-
     let style = document.getElementById("mem-ring-ss");
     style.sheet
-      .insertRule(`.expand-options.expand-complete:active ~ .mem-ring-${
-      props.id
-    } {
-      transform: rotate(${props.deg -
-        90}deg) translate(9vh) rotate(${(props.deg - 90) * -1}deg)
+      .insertRule(`.expand-options.expand-complete:active ~ .mem-ring-${props.id} {
+      transform: rotate(${props.deg}deg) translate(0, -9vh) rotate(-${props.deg}deg) rotate(360deg)
     }`);
   }, []);
 

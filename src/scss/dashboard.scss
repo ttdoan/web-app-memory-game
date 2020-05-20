@@ -52,6 +52,13 @@ $inner-circle-diameter: $menu-button-height/2;
   pointer-events: none;
   margin: 0;
   padding: 0;
+  transition: transform 750ms;
+  z-index: 1;
+}
+
+.menu-button span {
+  transition: opacity 750ms;
+  opacity: 1;
 }
 
 @keyframes roll {
@@ -248,8 +255,20 @@ $inner-circle-diameter: $menu-button-height/2;
   letter-spacing: $menu-button-height * 1.5;
 }
 
+.expand-options:active::before {
+  transform: scale(2);
+}
+
 .expand-options.expand-complete {
   transition: width 750ms ease 750ms, letter-spacing 750ms ease 750ms;
+}
+
+.expand-options.expand-complete::before {
+  transition: transform 1500ms;
+}
+
+.expand-options:active span {
+  opacity: 0;
 }
 
 .visible {
