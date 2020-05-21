@@ -8,6 +8,8 @@ export default function Ring(props) {
 
   useEffect(() => {
     let info = ring.current.getBoundingClientRect();
+    console.log(`X: ${info.x}`);
+    console.log(`Y: ${info.y}`);
     setX(Math.floor(info.x));
     setY(Math.floor(info.y));
 
@@ -20,8 +22,11 @@ export default function Ring(props) {
 
   function onTransitionEnd() {
     let info = ring.current.getBoundingClientRect();
-    if (x === Math.floor(info.x) && y === Math.floor(info.y))
+    if (x === Math.floor(info.x) && y === Math.floor(info.y)) {
       props.setParentClass(["expand-options"]);
+      console.log("setting circle to false");
+      props.setCircleMovable(false);
+    } else props.setCircleMovable(true);
   }
 
   return (

@@ -38,7 +38,25 @@ $inner-circle-diameter: $menu-button-height/2;
   user-select: none;
 }
 
-.menu-button::before {
+// .menu-button::before {
+//   content: "";
+//   color: black;
+//   height: $inner-circle-diameter;
+//   width: $inner-circle-diameter;
+//   background-color: gold;
+//   border-radius: 100%;
+//   position: absolute;
+//   display: inline-block;
+//   box-shadow: inset 0 0 0.5em white;
+//   left: 1.5vh;
+//   pointer-events: none;
+//   margin: 0;
+//   padding: 0;
+//   transition: transform 750ms;
+//   z-index: 1;
+// }
+
+.menu-button .button-circle {
   content: "";
   color: black;
   height: $inner-circle-diameter;
@@ -46,18 +64,18 @@ $inner-circle-diameter: $menu-button-height/2;
   background-color: gold;
   border-radius: 100%;
   position: absolute;
-  display: inline-block;
+  // display: inline-block;
   box-shadow: inset 0 0 0.5em white;
   left: 1.5vh;
   pointer-events: none;
   margin: 0;
   padding: 0;
-  transition: transform 750ms;
+  transition: transform 750ms ease 750ms;
   z-index: 1;
 }
 
 .menu-button span {
-  transition: opacity 750ms;
+  transition: opacity 740ms;
   opacity: 1;
 }
 
@@ -165,7 +183,14 @@ $inner-circle-diameter: $menu-button-height/2;
   animation-fill-mode: forwards, forwards;
 }
 
-.modal-overlay::before {
+// .modal-overlay::before {
+//   animation-name: expand;
+//   animation-duration: 750ms;
+//   animation-delay: 750ms;
+//   animation-fill-mode: forwards;
+// }
+
+.modal-overlay .button-circle {
   animation-name: expand;
   animation-duration: 750ms;
   animation-delay: 750ms;
@@ -189,7 +214,15 @@ $inner-circle-diameter: $menu-button-height/2;
   animation-fill-mode: forwards;
 }
 
-.modal-retract:before {
+// .modal-retract:before {
+//   position: absolute;
+//   animation-name: shrink;
+//   animation-duration: 750ms;
+//   animation-delay: 0;
+//   animation-fill-mode: forwards;
+// }
+
+.modal-retract .button-circle {
   position: absolute;
   animation-name: shrink;
   animation-duration: 750ms;
@@ -255,15 +288,24 @@ $inner-circle-diameter: $menu-button-height/2;
   letter-spacing: $menu-button-height * 1.5;
 }
 
-.expand-options:active::before {
-  transform: scale(2);
+// .expand-options:active::before {
+//   transform: scale(2);
+// }
+
+.expand-options:active .button-circle {
+  transform: scale(1.5);
 }
 
 .expand-options.expand-complete {
   transition: width 750ms ease 750ms, letter-spacing 750ms ease 750ms;
+  overflow: visible;
 }
 
-.expand-options.expand-complete::before {
+// .expand-options.expand-complete::before {
+//   transition: transform 1500ms;
+// }
+
+.expand-options.expand-complete .button-circle {
   transition: transform 1500ms;
 }
 

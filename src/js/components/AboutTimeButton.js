@@ -6,6 +6,7 @@ let memorizeTime = [5, 10, 15];
 
 export default function AboutTimeButton(props) {
   const self = useRef(null);
+  const [circleMovable, setCircleMovable] = useState(false);
 
   function onClick() {
     switch (props.name) {
@@ -57,6 +58,7 @@ export default function AboutTimeButton(props) {
   return (
     <div ref={self} className="button-container">
       <MenuButton
+        circleMovable={circleMovable}
         name={props.name}
         onClick={onClick}
         onMouseDown={onMouseDown}
@@ -71,6 +73,7 @@ export default function AboutTimeButton(props) {
             option={time}
             deg={deg}
             id={idx}
+            setCircleMovable={setCircleMovable}
             setParentClass={props.setClasses[2]}
           />
         );
