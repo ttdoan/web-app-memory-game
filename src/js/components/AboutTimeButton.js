@@ -3,10 +3,17 @@ import MenuButton from "./MenuButton";
 import Ring from "./Ring";
 
 let memorizeTime = [5, 10, 15];
+let func = null;
+const btnWidth = Math.floor(
+  Math.max(document.documentElement.clientHeight, window.innerHeight || 0) *
+    0.08
+);
 
 export default function AboutTimeButton(props) {
   const self = useRef(null);
   const [circleMovable, setCircleMovable] = useState(false);
+  const [ringClasses, setRingClasses] = useState([]);
+  const [prevWidth, setPrevWidth] = useState(0);
 
   function onClick() {
     switch (props.name) {
@@ -33,28 +40,54 @@ export default function AboutTimeButton(props) {
   }
 
   function onMouseDown() {
+    console.log("ON MOUSE DOWN");
     if (props.name == "MEMORIZE") {
-      props.setClasses[2](["expand-options"]);
+      props.setClasses[2](["expand-options", "active"]);
+      console.log("ADDING MOUSEUP EVENT ON WINDOW...");
+      window.addEventListener("mouseup", onMouseUp);
+      func = onMouseUp;
     }
+  }
+
+  function removeMouseUpListener() {
+    console.log("ATTEMPTING TO REMOVE MOUSEUP LISTENER...");
+    if (func === onMouseUp) console.log("THEY ARE EQUAL");
+    else console.log("THEY ARE NOT EQUAL");
+    window.removeEventListener("mouseup", func);
+  }
+
+  function onMouseUp() {
+    console.log("inside abouttime button mouseup");
+    window.removeEventListener("mouseup", onMouseUp);
+    setCircleMovable(false);
+    setRingClasses([]);
+    props.setClasses[2](classes =>
+      classes.filter(cls => cls == "expand-options" || cls == "expand-complete")
+    );
   }
 
   function onTransitionEnd() {
     if (props.name == "MEMORIZE") {
-      let btnWidth = Math.floor(
-        Math.max(
-          document.documentElement.clientHeight,
-          window.innerHeight || 0
-        ) * 0.08
-      );
-
-      let info = self.current.getBoundingClientRect();
-      if (Math.floor(info.width) === btnWidth)
-        props.setClasses[2](["expand-options", "expand-complete"]);
-      else props.setClasses[2](["expand-options"]);
+      let currWidth = Math.floor(self.current.getBoundingClientRect().width);
+      // One onTransitionEnd event is fired for every property. We only care when
+      // the width of the button changes.
+      if (prevWidth != currWidth) {
+        if (currWidth === btnWidth) {
+          props.setClasses[2](["expand-options", "active", "expand-complete"]);
+          setRingClasses(["ring-expand"]);
+        } else props.setClasses[2](["expand-options"]);
+      }
+      setPrevWidth(currWidth);
     }
   }
 
-  console.log("rendering about/memorize button");
+  useEffect(() => {
+    self.current.addEventListener("drop-circle", () => {
+      console.log("I GOT THE EVENT");
+    });
+  }, []);
+
+  // console.log("rendering about/memorize button");
   return (
     <div ref={self} className="button-container">
       <MenuButton
@@ -73,8 +106,13 @@ export default function AboutTimeButton(props) {
             option={time}
             deg={deg}
             id={idx}
+            ownClasses={ringClasses}
+            setOwnClasses={setRingClasses}
+            setClasses={setRingClasses}
+            circleMovable={circleMovable}
             setCircleMovable={setCircleMovable}
-            setParentClass={props.setClasses[2]}
+            setButtonClass={props.setClasses[2]}
+            removeMouseUpListener={removeMouseUpListener}
           />
         );
       })}

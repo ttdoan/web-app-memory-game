@@ -12,7 +12,7 @@ export default function OptionButton(props) {
     }, 1500);
   }
 
-  console.log("rendering option button");
+  // console.log("rendering option button");
   return (
     <MenuButton name={props.name} onClick={onClick} classes={props.classes} />
   );

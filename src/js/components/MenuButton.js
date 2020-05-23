@@ -14,14 +14,17 @@ export default function MenuButton(props) {
   function onMouseMove(e) {
     if (props.circleMovable) {
       let info = circle.current.getBoundingClientRect();
-      console.log(`X: ${circle.current.getBoundingClientRect().x}`);
-      console.log(`CLIENTX: ${e.clientX}`);
-      console.log(`PAGEX: ${e.pageX}`);
-      console.log(`Y: ${circle.current.getBoundingClientRect().y}`);
-      console.log(`CLIENTY: ${e.clientY}`);
-      console.log(`PAGEY: ${e.pageY}`);
-      circle.current.style.left = e.clientX - window.innerWidth / 2 + "px";
+      // console.log(`X: ${circle.current.getBoundingClientRect().x}`);
+      // console.log(`CLIENTX: ${e.clientX}`);
+      // console.log(`PAGEX: ${e.pageX}`);
+      // console.log(`Y: ${circle.current.getBoundingClientRect().y}`);
+      // console.log(`CLIENTY: ${e.clientY}`);
+      // console.log(`PAGEY: ${e.pageY}`);
 
+      // TODO: need to fix... When circle is able to move, then calculate difference between
+      // current position of mouse and the circle and then keep the distance constant...
+      // TODO: also need to add mouseup listener for when user releases mouse...
+      circle.current.style.left = e.clientX - window.innerWidth / 2 + "px";
       circle.current.style.top =
         e.clientY - (window.innerHeight / 4) * 3 + "px";
     }
@@ -55,7 +58,11 @@ export default function MenuButton(props) {
       onAnimationEnd={props.onAnimationEnd}
       onTransitionEnd={props.onTransitionEnd}
     >
-      <div ref={circle} className="button-circle"></div>
+      <div
+        draggable="true"
+        ref={circle}
+        className={"button-circle" + (props.circleMovable ? " active" : "")}
+      ></div>
       <span>{props.name}</span>
     </div>
   );

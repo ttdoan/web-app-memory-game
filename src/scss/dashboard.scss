@@ -64,13 +64,14 @@ $inner-circle-diameter: $menu-button-height/2;
   background-color: gold;
   border-radius: 100%;
   position: absolute;
-  // display: inline-block;
+  /* TODO: do i need this...? */
+  display: inline-block;
   box-shadow: inset 0 0 0.5em white;
   left: 1.5vh;
   pointer-events: none;
   margin: 0;
   padding: 0;
-  transition: transform 750ms ease 750ms;
+  transition: transform 750ms ease 750ms, left 750ms, top 750ms;
   z-index: 1;
 }
 
@@ -167,6 +168,24 @@ $inner-circle-diameter: $menu-button-height/2;
   100% {
     overflow: hidden;
   }
+}
+
+@keyframes flash {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+.flash {
+  animation-name: flash;
+  animation-duration: 750ms;
 }
 
 .full-roll {
@@ -281,19 +300,17 @@ $inner-circle-diameter: $menu-button-height/2;
 
 .expand-options {
   transition: width 750ms, letter-spacing 750ms;
+  width: $menu-button-width;
 }
 
-.expand-options:active {
-  width: $menu-button-height;
-  letter-spacing: $menu-button-height * 1.5;
-}
-
-// .expand-options:active::before {
-//   transform: scale(2);
+// .expand-options:active {
+//   width: $menu-button-height;
+//   letter-spacing: $menu-button-height * 1.5;
 // }
 
-.expand-options:active .button-circle {
-  transform: scale(1.5);
+.expand-options.active {
+  width: $menu-button-height;
+  letter-spacing: $menu-button-height * 1.5;
 }
 
 .expand-options.expand-complete {
@@ -301,16 +318,33 @@ $inner-circle-diameter: $menu-button-height/2;
   overflow: visible;
 }
 
-// .expand-options.expand-complete::before {
-//   transition: transform 1500ms;
-// }
-
-.expand-options.expand-complete .button-circle {
-  transition: transform 1500ms;
+.expand-options.expand-complete.delay {
+  transition: width 750ms ease 1500ms, letter-spacing 750ms ease 1500ms;
+  overflow: visible;
 }
 
-.expand-options:active span {
+// Circle has already has a transition delay so no need to add one here.
+.expand-options.active .button-circle {
+  transform: scale(1.5);
+}
+
+// When the circle is moving, there is no transition duration.
+.expand-options.expand-complete .button-circle.active {
+  transition: transform 750ms;
+}
+
+// When the circle is not moving, then it should gradually transition
+// back to original position.
+.expand-options.expand-complete .button-circle {
+  transition: transform 750ms, left 750ms, top 750ms;
+}
+
+.expand-options.active span {
   opacity: 0;
+}
+
+.expand-options.expand-complete span {
+  transition: opacity 740ms ease 750ms;
 }
 
 .visible {
