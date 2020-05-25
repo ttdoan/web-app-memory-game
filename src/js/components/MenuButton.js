@@ -59,7 +59,6 @@ export default function MenuButton(props) {
       onTransitionEnd={props.onTransitionEnd}
     >
       <div
-        draggable="true"
         ref={circle}
         className={"button-circle" + (props.circleMovable ? " active" : "")}
       ></div>

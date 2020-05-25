@@ -21,14 +21,18 @@ export default function Ring(props) {
 
     let circle = document.querySelector(".button-circle.active");
     let info = ring.current.getBoundingClientRect();
-    circle.style.left = info.x + "px";
-    circle.style.top = info.y + "px";
+    // circle.style.left = info.x + "px";
+    // circle.style.top = info.y + "px";
 
-    // circle.classList.toggle("flash");
-    circle.className += "flash";
-    props.setButtonClass(classes => [...classes, "delay", "disabled"]);
+    circle.classList.toggle("flash");
+    console.log(circle);
+    // circle.className += "flash";
+    // props.setButtonClass(classes => [...classes, "delay", "disabled"]);
+    props.setButtonClass(classes => [...classes, "disabled"]);
+    props.setOwnClasses(["delay"]);
     props.setCircleMovable(false);
     setTimeout(() => {
+      props.setOwnClasses([]);
       // circle.classList.toggle("flash");
       // props.setButtonClass(classes => classes.filter(cls => cls != "active"));
       props.setButtonClass(classes =>
@@ -48,18 +52,18 @@ export default function Ring(props) {
     setX(Math.floor(info.x));
     setY(Math.floor(info.y));
 
-    // Dynamically add classes to ring for animation based on its degree.
     let style = document.getElementById("mem-ring-ss");
-    // style.sheet
-    //   .insertRule(`.expand-options.expand-complete:active ~ .mem-ring-${props.id} {
-    //   transform: rotate(${props.deg}deg) translate(0, -9vh) rotate(-${props.deg}deg) rotate(360deg)
-    // }`);
+    // Dynamically add classes to ring for animation based on its degree.
     style.sheet
       .insertRule(`.expand-options.expand-complete ~ .ring-expand.mem-ring-${props.id} {
       transform: rotate(${props.deg}deg) translate(0, -9vh) rotate(-${props.deg}deg) rotate(360deg)
     }`);
+    // style.sheet
+    //   .insertRule(`.expand-options.expand-complete.delay ~ .mem-ring-${props.id} {
+    //   transition: transform 750ms ease 750ms;
+    // }`);
     style.sheet
-      .insertRule(`.expand-options.expand-complete.delay ~ .mem-ring-${props.id} {
+      .insertRule(`.expand-options.expand-complete ~ .mem-ring-${props.id}.delay {
       transition: transform 750ms ease 750ms;
     }`);
   }, []);

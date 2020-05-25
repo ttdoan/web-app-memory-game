@@ -38,24 +38,6 @@ $inner-circle-diameter: $menu-button-height/2;
   user-select: none;
 }
 
-// .menu-button::before {
-//   content: "";
-//   color: black;
-//   height: $inner-circle-diameter;
-//   width: $inner-circle-diameter;
-//   background-color: gold;
-//   border-radius: 100%;
-//   position: absolute;
-//   display: inline-block;
-//   box-shadow: inset 0 0 0.5em white;
-//   left: 1.5vh;
-//   pointer-events: none;
-//   margin: 0;
-//   padding: 0;
-//   transition: transform 750ms;
-//   z-index: 1;
-// }
-
 .menu-button .button-circle {
   content: "";
   color: black;
@@ -202,13 +184,6 @@ $inner-circle-diameter: $menu-button-height/2;
   animation-fill-mode: forwards, forwards;
 }
 
-// .modal-overlay::before {
-//   animation-name: expand;
-//   animation-duration: 750ms;
-//   animation-delay: 750ms;
-//   animation-fill-mode: forwards;
-// }
-
 .modal-overlay .button-circle {
   animation-name: expand;
   animation-duration: 750ms;
@@ -232,14 +207,6 @@ $inner-circle-diameter: $menu-button-height/2;
   animation-delay: 750ms;
   animation-fill-mode: forwards;
 }
-
-// .modal-retract:before {
-//   position: absolute;
-//   animation-name: shrink;
-//   animation-duration: 750ms;
-//   animation-delay: 0;
-//   animation-fill-mode: forwards;
-// }
 
 .modal-retract .button-circle {
   position: absolute;
@@ -302,11 +269,6 @@ $inner-circle-diameter: $menu-button-height/2;
   transition: width 750ms, letter-spacing 750ms;
   width: $menu-button-width;
 }
-
-// .expand-options:active {
-//   width: $menu-button-height;
-//   letter-spacing: $menu-button-height * 1.5;
-// }
 
 .expand-options.active {
   width: $menu-button-height;
