@@ -6,8 +6,6 @@ export default function Ring(props) {
     let info = ring.current.getBoundingClientRect();
     if (x === Math.floor(info.x) && y === Math.floor(info.y)) {
       props.setButtonClass(["expand-options"]);
-      console.log("setting circle to false");
-      props.setCircleMovable(false);
     } else props.setCircleMovable(true);
   }
 
@@ -20,21 +18,30 @@ export default function Ring(props) {
     props.setOwnClasses([]);
 
     let circle = document.querySelector(".button-circle.active");
-    let info = ring.current.getBoundingClientRect();
-    // circle.style.left = info.x + "px";
-    // circle.style.top = info.y + "px";
+    let infoRing = ring.current.getBoundingClientRect();
+    let diffX = infoRing.x - x;
+    let diffY = infoRing.y - y;
+    circle.style.left = props.circlePos.left + diffX + "px";
+    circle.style.top = props.circlePos.top + diffY + "px";
 
+    // TODO: need to set to redux configuration
+    props.confirmOption(props.option);
+
+    props.setCircleMovable(false);
     circle.classList.toggle("flash");
-    console.log(circle);
-    // circle.className += "flash";
-    // props.setButtonClass(classes => [...classes, "delay", "disabled"]);
     props.setButtonClass(classes => [...classes, "disabled"]);
+    // Add delay to ring transition for flash animation to finish.
     props.setOwnClasses(["delay"]);
+    // Remove the onMouseMove listener so circle cannot move on mousemove.
     props.setCircleMovable(false);
     setTimeout(() => {
+      // Remove the "ring-expand" class.
       props.setOwnClasses([]);
-      // circle.classList.toggle("flash");
-      // props.setButtonClass(classes => classes.filter(cls => cls != "active"));
+      // Remove inline style for position so circle can transition back to original position.
+      circle.style.left = null;
+      circle.style.top = null;
+      // Remove the "active" class from circle so it can transition back to original position.
+      props.setCircleClasses([]);
       props.setButtonClass(classes =>
         classes.filter(
           cls => cls == "expand-options" || cls == "expand-complete"
@@ -51,6 +58,8 @@ export default function Ring(props) {
     let info = ring.current.getBoundingClientRect();
     setX(Math.floor(info.x));
     setY(Math.floor(info.y));
+    console.log(`X: ${info.x}`);
+    console.log(`Y: ${info.y}`);
 
     let style = document.getElementById("mem-ring-ss");
     // Dynamically add classes to ring for animation based on its degree.
@@ -86,5 +95,6 @@ export default function Ring(props) {
 
 Ring.propTypes = {
   deg: PropTypes.number.isRequired,
-  option: PropTypes.number.isRequired
+  option: PropTypes.number.isRequired,
+  confirmOption: PropTypes.func.isRequired
 };

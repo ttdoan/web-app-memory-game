@@ -46,10 +46,10 @@ $inner-circle-diameter: $menu-button-height/2;
   background-color: gold;
   border-radius: 100%;
   position: absolute;
-  /* TODO: do i need this...? */
-  display: inline-block;
   box-shadow: inset 0 0 0.5em white;
   left: 1.5vh;
+  top: 50%;
+  transform: translate(0, -50%);
   pointer-events: none;
   margin: 0;
   padding: 0;
@@ -107,7 +107,7 @@ $inner-circle-diameter: $menu-button-height/2;
     position: absolute;
     width: $inner-circle-diameter;
     height: $inner-circle-diameter;
-    transform: scale(1);
+    transform: translate(0, -50%);
     background-color: gold;
   }
 }
@@ -250,6 +250,7 @@ $inner-circle-diameter: $menu-button-height/2;
 .button-container {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .ring {
@@ -287,7 +288,7 @@ $inner-circle-diameter: $menu-button-height/2;
 
 // Circle has already has a transition delay so no need to add one here.
 .expand-options.active .button-circle {
-  transform: scale(1.5);
+  transform: translate(0, -50%) scale(1.5);
 }
 
 // When the circle is moving, there is no transition duration.
