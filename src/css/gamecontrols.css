@@ -1,0 +1,30 @@
+.game-controls {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 15vh;
+  margin: 0;
+}
+
+.control-button {
+  height: 12vh;
+  width: 12vh;
+  border-radius: 50%;
+  box-sizing: border-box;
+  font-size: 5vh;
+  background-color: green;
+  border-width: 0.4vh;
+}
+
+.play-pause-button {
+  background: linear-gradient(90deg, #d4145a, #fbb03b);
+}
+
+.restart-button {
+  background: linear-gradient(90deg, #2e3192, #1bffff);
+}
+
+.main-screen-button {
+  background: linear-gradient(90deg, #11998e, #38ef7d);
+}

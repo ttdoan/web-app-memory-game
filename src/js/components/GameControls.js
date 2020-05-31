@@ -13,6 +13,14 @@ import {
   resetTimer
 } from "./../redux/actions/timer-actions";
 
+import {
+  faPause,
+  faPlay,
+  faRedoAlt,
+  faChevronLeft
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 function GameControls(props) {
   const [interval, setInternalInterval] = useState();
 
@@ -82,35 +90,36 @@ function GameControls(props) {
       <div className="game-controls">
         <button
           onClick={click}
-          className={
-            "control-button" + (props.fsm == gameFsm.FINISHED ? " half" : "")
-          }
-          style={{
-            backgroundColor:
-              props.fsm == gameFsm.IDLE || props.fsm == gameFsm.FINISHED
-                ? "#00E000"
-                : props.fsm == gameFsm.PLAY || props.fsm == gameFsm.RESUME
-                ? "#DA0000"
-                : "#2999E1"
-          }}
+          className="control-button play-pause-button"
+          // style={{
+          //   backgroundColor:
+          //     props.fsm == gameFsm.IDLE || props.fsm == gameFsm.FINISHED
+          //       ? "#00E000"
+          //       : props.fsm == gameFsm.PLAY || props.fsm == gameFsm.RESUME
+          //       ? "#DA0000"
+          //       : "#2999E1"
+          // }}
         >
-          {props.fsm == gameFsm.IDLE
-            ? "PLAY"
-            : props.fsm == gameFsm.FINISHED
-            ? "PLAY AGAIN"
-            : props.fsm == gameFsm.PLAY || props.fsm == gameFsm.RESUME
-            ? "PAUSE"
-            : "RESUME"}
+          {props.fsm == gameFsm.IDLE ? (
+            <FontAwesomeIcon icon={faPlay} />
+          ) : props.fsm == gameFsm.FINISHED ? (
+            "PLAY AGAIN"
+          ) : props.fsm == gameFsm.PLAY || props.fsm == gameFsm.RESUME ? (
+            <FontAwesomeIcon icon={faPause} />
+          ) : (
+            "RESUME"
+          )}
         </button>
-        {props.fsm == gameFsm.FINISHED ? (
-          <button
-            onClick={reset}
-            className="control-button half"
-            style={{ backgroundColor: "#FF9100" }}
-          >
-            PLAY ANOTHER GAME
-          </button>
-        ) : null}
+        <button
+          onClick={reset}
+          className="control-button restart-button"
+          // style={{ backgroundColor: "#FF9100" }}
+        >
+          <FontAwesomeIcon icon={faRedoAlt} />
+        </button>
+        <button className="control-button main-screen-button">
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </button>
       </div>
     </>
   );

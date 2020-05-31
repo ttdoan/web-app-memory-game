@@ -6,18 +6,21 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import rootReducer from "./redux/reducers";
 // React components
-import Board from "./components/Board";
-import Dashboard from "./components/Dashboard";
+import MainScreen from "./components/MainScreen";
+import PlayScreen from "./components/PlayScreen";
 // Dependencies
 import "./../css/style.css";
+import "./../css/display.css";
 import "./../scss/dashboard.scss";
+import "./../css/timer.css";
 import "./../scss/board.scss";
+import "./../css/gamecontrols.css";
 
 function Game() {
   return (
     <>
-      <Dashboard />
-      {/* <Board /> */}
+      {/* <MainScreen /> */}
+      <PlayScreen />
     </>
   );
 }

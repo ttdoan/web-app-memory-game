@@ -58,8 +58,6 @@ export default function Ring(props) {
     let info = ring.current.getBoundingClientRect();
     setX(Math.floor(info.x));
     setY(Math.floor(info.y));
-    console.log(`X: ${info.x}`);
-    console.log(`Y: ${info.y}`);
 
     let style = document.getElementById("mem-ring-ss");
     // Dynamically add classes to ring for animation based on its degree.
@@ -67,10 +65,6 @@ export default function Ring(props) {
       .insertRule(`.expand-options.expand-complete ~ .ring-expand.mem-ring-${props.id} {
       transform: rotate(${props.deg}deg) translate(0, -9vh) rotate(-${props.deg}deg) rotate(360deg)
     }`);
-    // style.sheet
-    //   .insertRule(`.expand-options.expand-complete.delay ~ .mem-ring-${props.id} {
-    //   transition: transform 750ms ease 750ms;
-    // }`);
     style.sheet
       .insertRule(`.expand-options.expand-complete ~ .mem-ring-${props.id}.delay {
       transition: transform 750ms ease 750ms;

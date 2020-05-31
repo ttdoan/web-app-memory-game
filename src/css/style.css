@@ -53,22 +53,6 @@ button {
   grid-column: span 3;
 }
 
-.game-controls {
-  grid-column: span 1;
-}
-
-.control-button {
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 70px;
-}
-
-.half {
-  height: 50%;
-  font-size: 20px;
-}
-
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
 }

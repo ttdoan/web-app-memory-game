@@ -1,0 +1,41 @@
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 15vh;
+  margin: 2.5vh 0;
+  box-sizing: border-box;
+}
+
+.timer .delimiter {
+  font-size: 4vh;
+  margin-right: 2vw;
+  margin-left: 2vw;
+}
+
+.timer-card {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff8243;
+  width: 15vw;
+  height: 100%;
+  border-radius: 2vw;
+}
+
+.timer-card .title,
+.timer-card .number {
+  margin: 0;
+  line-height: 1;
+}
+
+.timer-card .title {
+  font-size: min(2vh, 3vw);
+  /* margin-bottom: -1vh; */
+}
+
+.timer-card .number {
+  font-size: max(8vh, 6vw);
+}

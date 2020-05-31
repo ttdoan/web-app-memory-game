@@ -5,8 +5,9 @@ import {
 } from "./../actions/types";
 
 let initialState = {
+  pairs: 8,
   fsm: gameFsm.IDLE,
-  matchCountLeft: -1
+  matchCountLeft: 16
 };
 
 const gameStatus = (state = initialState, action) => {
@@ -27,7 +28,11 @@ const gameStatus = (state = initialState, action) => {
       else return { fsm: state.fsm, matchCountLeft: state.matchCountLeft - 1 };
 
     case SET_MATCH_PAIRS:
-      return { fsm: state.fsm, matchCountLeft: action.pairs * 2 };
+      return {
+        pairs: action.pairs,
+        fsm: state.fsm,
+        matchCountLeft: action.pairs * 2
+      };
 
     default:
       return state;

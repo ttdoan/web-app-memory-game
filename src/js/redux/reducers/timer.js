@@ -6,10 +6,12 @@ import {
 } from "./../actions/types";
 
 const initialState = {
-  memTime: 0,
+  // Amout of time in seconds to memorize pairs.
+  memTime: 5,
+  // For timer.
   second: 0,
-  // Snapshot of the variable "second". Any components that
-  // are dependent on "second" can use this to prevent from
+  // Time for completed game. Any components that are
+  // dependent on "second" can use this to prevent from
   // re-rendering unnecessarily.
   recordedTime: 0
 };

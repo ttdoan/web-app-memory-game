@@ -14,10 +14,6 @@ $inner-circle-diameter: $menu-button-height/2;
   margin: auto;
 }
 
-.change {
-  transform: rotate(90deg) translate(100px) rotate(-90deg);
-}
-
 .menu-button {
   position: relative;
   display: flex;
@@ -54,7 +50,7 @@ $inner-circle-diameter: $menu-button-height/2;
   margin: 0;
   padding: 0;
   transition: transform 750ms ease 750ms, left 750ms, top 750ms;
-  z-index: 1;
+  z-index: 2;
 }
 
 .menu-button span {

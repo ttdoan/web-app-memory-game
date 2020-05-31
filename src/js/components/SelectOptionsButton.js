@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import MenuButton from "./MenuButton";
 import Ring from "./Ring";
 
-let memorizeTime = [5, 10, 15];
-
 // TODO: for some reason, onMouseMove changed... so need to store
 // original image of function to remove event listener correctly...
 // Need to find out why...
@@ -20,38 +18,25 @@ export default function SelectOptionsButton(props) {
   const [circleRef, setCircleRef] = useState(null);
   const [circleMovable, setCircleMovable] = useState(false);
   const [circleClasses, setCircleClasses] = useState([]);
+  // Object that contains the following properties:
+  //  left   - Value of property "left"
+  //  top    - Value of property "top"
+  //  x      - X-coordinate of the circle when button has rolled up
+  //  y      - Y-coordinate of the circle when button has rolled up
+  //  width  - Width of the circle
+  //  height - Height of the circle
+  //
+  // This is used to calculate the position of circle for mouse
+  // movement and option selection in Ring class.
   const [circlePos, setCirclePos] = useState();
+  const [posAlreadySet, setPosAlreadySet] = useState(false);
   const [ringClasses, setRingClasses] = useState([]);
   const [prevWidth, setPrevWidth] = useState(0);
 
-  function onClick() {
-    switch (props.name) {
-      case "ABOUT":
-        props.setClasses.forEach((setClass, idx) => {
-          if (idx == 2) setClass(["disabled", "modal-overlay"]);
-          else setClass(["disabled"]);
-        });
-        revealAbout();
-        break;
-
-      case "MEMORIZE":
-        break;
-
-      default:
-        throw `Invalid button name: ${props.name}`;
-    }
-  }
-
-  function revealAbout() {
-    setTimeout(() => {
-      document.getElementById("about").classList.toggle("visible");
-    }, 1200);
-  }
-
   function onMouseDown() {
     console.log("ON MOUSE DOWN");
-    if (props.name == "MEMORIZE") {
-      props.setClasses[2](["expand-options", "active"]);
+    if (props.optionSelect) {
+      props.setOwnClasses(["expand-options", "active"]);
       console.log("ADDING MOUSEUP EVENT ON WINDOW...");
       window.addEventListener("mouseup", onMouseUp);
       onMouseUpRef = onMouseUp;
@@ -73,21 +58,35 @@ export default function SelectOptionsButton(props) {
     setRingClasses([]);
     circleRef.style.left = null;
     circleRef.style.top = null;
-    props.setClasses[2](classes =>
+    props.setOwnClasses(classes =>
       classes.filter(cls => cls == "expand-options" || cls == "expand-complete")
     );
   }
 
   function onTransitionEnd() {
-    if (props.name == "MEMORIZE") {
+    if (props.optionSelect) {
       let currWidth = Math.floor(self.current.getBoundingClientRect().width);
       // One onTransitionEnd event is fired for every property. We only care when
       // the width of the button changes.
       if (prevWidth != currWidth) {
         if (currWidth === btnWidth) {
-          props.setClasses[2](["expand-options", "active", "expand-complete"]);
+          props.setOwnClasses(["expand-options", "active", "expand-complete"]);
+          // Add "ring-expand" class for ring transition animation.
           setRingClasses(["ring-expand"]);
-        } else props.setClasses[2](["expand-options"]);
+          if (!posAlreadySet) {
+            setPosAlreadySet(true);
+            setCirclePos(pos => {
+              let info = circleRef.getBoundingClientRect();
+              return {
+                ...pos,
+                x: info.x,
+                y: info.y,
+                width: info.width,
+                height: info.height
+              };
+            });
+          }
+        } else props.setOwnClasses(["expand-options"]);
       }
       setPrevWidth(currWidth);
     }
@@ -95,9 +94,11 @@ export default function SelectOptionsButton(props) {
 
   function onMouseMove(e) {
     if (circleMovable) {
-      let info = circleRef.getBoundingClientRect();
-      circleRef.style.left = e.clientX - window.innerWidth / 2 + "px";
-      circleRef.style.top = e.clientY - (window.innerHeight / 4) * 3 + "px";
+      let diffX = circlePos.x - e.clientX;
+      let diffY = circlePos.y - e.clientY;
+      circleRef.style.left =
+        circlePos.left - diffX - circlePos.width / 2 + "px";
+      circleRef.style.top = circlePos.top - diffY - circlePos.height / 2 + "px";
     }
   }
 
@@ -130,21 +131,21 @@ export default function SelectOptionsButton(props) {
     }
   }, [circleRef]);
 
-  // console.log("rendering about/memorize button");
+  // console.log("rendering selectoptions button");
   return (
     <div ref={self} className="button-container">
       <MenuButton
         circleMovable={circleMovable}
         name={props.name}
-        onClick={onClick}
+        onClick={props.onClick}
         onMouseDown={onMouseDown}
         onTransitionEnd={onTransitionEnd}
         classes={props.classes}
         setCircle={setCircleRef}
         circleClasses={circleClasses}
       />
-      {memorizeTime.map((time, idx) => {
-        let deg = (360 / memorizeTime.length) * idx;
+      {props.optionList.map((time, idx) => {
+        let deg = (360 / props.optionList.length) * idx;
         return (
           <Ring
             key={time}
@@ -158,7 +159,7 @@ export default function SelectOptionsButton(props) {
             setCircleMovable={setCircleMovable}
             setCircleClasses={setCircleClasses}
             circlePos={circlePos}
-            setButtonClass={props.setClasses[2]}
+            setButtonClass={props.setOwnClasses}
             removeMouseUpListener={removeMouseUpListener}
           />
         );
@@ -169,5 +170,8 @@ export default function SelectOptionsButton(props) {
 
 SelectOptionsButton.propTypes = {
   optionList: PropTypes.array.isRequired,
-  confirmOption: PropTypes.func.isRequired
+  confirmOption: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+  setOwnClasses: PropTypes.func.isRequired,
+  optionSelect: PropTypes.bool.isRequired
 };

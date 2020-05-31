@@ -1,8 +1,12 @@
 $back-item-border-width: 2px;
-$match-item-size: 60px;
-$match-item-border-radius: 25px;
-$row-gap: 12px;
-$board-margin-top: 16px;
+// $match-item-size: 60px;
+$match-item-size: 15vw;
+// $match-item-border-radius: 25px;
+$match-item-border-radius: 6.25vw;
+// $row-gap: 12px;
+$row-gap: 3vw;
+// $board-margin-top: 16px;
+$board-margin-top: 4vw;
 $icon-size: $match-item-size/2;
 
 svg {
@@ -17,8 +21,9 @@ svg {
   list-style: none;
   padding: 0;
   margin: auto;
-  margin-top: $board-margin-top;
+  // margin-top: $board-margin-top;
   justify-items: center;
+  border: solid red;
 }
 
 .match-item-container {
@@ -165,28 +170,28 @@ svg {
 $screen-sizes: 600px 768px 992px 1200px;
 $multipliers: 1.5 2 2.5 3;
 
-@for $i from 1 through 4 {
-  @media only screen and (min-width: nth($screen-sizes, $i)) {
-    .board {
-      row-gap: $row-gap * nth($multipliers, $i);
-      margin-top: $board-margin-top * nth($multipliers, $i);
-    }
+// @for $i from 1 through 4 {
+//   @media only screen and (min-width: nth($screen-sizes, $i)) {
+//     .board {
+//       row-gap: $row-gap * nth($multipliers, $i);
+//       margin-top: $board-margin-top * nth($multipliers, $i);
+//     }
 
-    .match-item-container {
-      width: $match-item-size * nth($multipliers, $i);
-      height: $match-item-size * nth($multipliers, $i);
-      border-radius: $match-item-border-radius * nth($multipliers, $i);
-      box-sizing: border-box;
-    }
+//     .match-item-container {
+//       width: $match-item-size * nth($multipliers, $i);
+//       height: $match-item-size * nth($multipliers, $i);
+//       border-radius: $match-item-border-radius * nth($multipliers, $i);
+//       box-sizing: border-box;
+//     }
 
-    .match-item,
-    .back-item {
-      border-radius: $match-item-border-radius * nth($multipliers, $i);
-      font-size: $icon-size * nth($multipliers, $i);
-    }
+//     .match-item,
+//     .back-item {
+//       border-radius: $match-item-border-radius * nth($multipliers, $i);
+//       font-size: $icon-size * nth($multipliers, $i);
+//     }
 
-    .back-item {
-      border-width: $back-item-border-width * nth($multipliers, $i);
-    }
-  }
-}
+//     .back-item {
+//       border-width: $back-item-border-width * nth($multipliers, $i);
+//     }
+//   }
+// }

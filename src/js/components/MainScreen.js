@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MenuButton from "./MenuButton";
+import StartPairsButton from "./StartPairsButton";
 import OptionButton from "./OptionButton";
 import AboutTimeButton from "./AboutTimeButton";
 
@@ -24,13 +24,18 @@ export default function Dashboard() {
   }
 
   return (
-    <>
+    <div className="screen">
       <div id="about">
         <div onClick={closeAbout} className="close-button"></div>
         <p>Thank you for trying my game!</p>
       </div>
       <div className="dashboard">
-        <MenuButton name="START" classes={firstBtnClasses} />
+        {/* <MenuButton name="START" classes={firstBtnClasses} /> */}
+        <StartPairsButton
+          name={showOptions ? "PAIRS" : "START"}
+          classes={firstBtnClasses}
+          setClasses={setFirstBtnClasses}
+        />
         <OptionButton
           setClasses={[setFirstBtnClasses, setSecBtnClasses, setThrdBtnClasses]}
           setShowOptions={setShowOptions}
@@ -38,11 +43,11 @@ export default function Dashboard() {
           classes={secondBtnClasses}
         />
         <AboutTimeButton
-          setClasses={[setFirstBtnClasses, setSecBtnClasses, setThrdBtnClasses]}
           name={showOptions ? "MEMORIZE" : "ABOUT"}
           classes={thirdBtnClasses}
+          setClasses={[setFirstBtnClasses, setSecBtnClasses, setThrdBtnClasses]}
         />
       </div>
-    </>
+    </div>
   );
 }

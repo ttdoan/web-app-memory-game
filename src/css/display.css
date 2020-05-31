@@ -15,39 +15,6 @@
   transform: rotateX(120deg);
 }
 
-/* SIDE ONE: GAME CONFIG */
-.game-config {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  row-gap: 1.5px;
-  width: 100%;
-  transform: rotateX(0deg);
-}
-
-.game-config * {
-  font-size: 15px;
-}
-
-.score {
-  margin: 0;
-}
-
-.help,
-select {
-  background-color: #181a1b;
-}
-
-/* SIDE TWO: TIMER */
-.timer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ff8243;
-  width: 100%;
-  font-size: 30px;
-  transform: rotateX(120deg);
-}
-
 /* SIDE THREE: CONGRATS */
 .congrats {
   display: grid;
@@ -62,8 +29,8 @@ select {
 }
 
 .game-config,
-.congrats,
-.timer {
+.congrats {
+  /* .timer { */
   height: 100%;
   position: absolute;
   -moz-backface-visibility: hidden;

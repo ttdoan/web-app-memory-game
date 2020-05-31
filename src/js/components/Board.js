@@ -93,7 +93,7 @@ const _boardFsm = {
 };
 
 function Board(props) {
-  const [board, makeBoard] = useState([]);
+  const [board, makeBoard] = useState(randomizeIcons(available, props.pairs));
   const [boardState, setBoardState] = useState(_boardFsm.DO_NOTHING);
 
   useEffect(() => {
@@ -128,8 +128,8 @@ function Board(props) {
 }
 
 const mapStateToProps = state => ({
-  play: state.game.fsm == gameFsm.PLAY,
-  pairs: state.game.matchCountLeft / 2
+  pairs: state.game.pairs,
+  play: state.game.fsm == gameFsm.PLAY
 });
 
 const mapDispatchToProps = dispatch => ({
