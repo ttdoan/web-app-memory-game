@@ -3,12 +3,11 @@ import StartPairsButton from "./StartPairsButton";
 import OptionButton from "./OptionButton";
 import AboutTimeButton from "./AboutTimeButton";
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const [firstBtnClasses, setFirstBtnClasses] = useState([]);
   const [secondBtnClasses, setSecBtnClasses] = useState([]);
   const [thirdBtnClasses, setThrdBtnClasses] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
-  const [flipped, setFlipped] = useState(false);
 
   function closeAbout() {
     // Add class for modal retraction animation
@@ -41,8 +40,8 @@ export default function Dashboard() {
             name={showOptions ? "PAIRS" : "START"}
             classes={firstBtnClasses}
             setClasses={setFirstBtnClasses}
-            flipped={flipped}
-            setFlipped={setFlipped}
+            flipped={props.flipped}
+            setFlipped={props.setFlipped}
           />
           <OptionButton
             setClasses={[
@@ -53,7 +52,7 @@ export default function Dashboard() {
             setShowOptions={setShowOptions}
             name={showOptions ? "BACK" : "OPTIONS"}
             classes={secondBtnClasses}
-            flipped={flipped}
+            flipped={props.flipped}
           />
           <AboutTimeButton
             name={showOptions ? "MEMORIZE" : "ABOUT"}
@@ -63,7 +62,7 @@ export default function Dashboard() {
               setSecBtnClasses,
               setThrdBtnClasses
             ]}
-            flipped={flipped}
+            flipped={props.flipped}
           />
         </div>
       </div>

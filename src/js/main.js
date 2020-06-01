@@ -1,5 +1,5 @@
 // React
-import React from "react";
+import React, { useState } from "react";
 import { render } from "react-dom";
 // Redux
 import { Provider } from "react-redux";
@@ -7,7 +7,7 @@ import { createStore } from "redux";
 import rootReducer from "./redux/reducers";
 // React components
 import MainScreen from "./components/MainScreen";
-import PlayScreen from "./components/PlayScreen";
+import GameScreen from "./components/GameScreen";
 // Dependencies
 import "./../css/style.css";
 import "./../css/display.css";
@@ -17,19 +17,12 @@ import "./../scss/board.scss";
 import "./../css/gamecontrols.css";
 
 function Game() {
+  const [flipped, setFlipped] = useState(false);
+
   return (
     <>
-      <MainScreen />
-      <PlayScreen />
-
-      {/* <div className="card-container">
-        <div className="card front">
-          <p>yes</p>
-        </div>
-        <div className="card back">
-          <p>hey</p>
-        </div>
-      </div> */}
+      <MainScreen flipped={flipped} setFlipped={setFlipped} />
+      <GameScreen flipped={flipped} setFlipped={setFlipped} />
     </>
   );
 }

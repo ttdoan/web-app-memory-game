@@ -1,11 +1,8 @@
-import {
-  INCREMENT_TIMER,
-  RESET_TIMER,
-  SET_MEM_TIME,
-  RECORD_TIME
-} from "./../actions/types";
+import { timerActions } from "./../actions/types";
 
 const initialState = {
+  // ID for setInterval.
+  intervalID: 0,
   // Amout of time in seconds to memorize pairs.
   memTime: 5,
   // For timer.
@@ -18,18 +15,21 @@ const initialState = {
 
 const timer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_MEM_TIME:
-      return Object.assign({}, { ...state }, { memTime: action.time });
+    case timerActions.SET_MEM_TIME:
+      return Object.assign({}, state, { memTime: action.time });
 
-    case INCREMENT_TIMER:
-      return Object.assign({}, { ...state }, { second: state.second + 1 });
+    case timerActions.INCREMENT_TIMER:
+      return Object.assign({}, state, { second: state.second + 1 });
 
-    case RESET_TIMER:
+    case timerActions.RESET_TIMER:
       return initialState;
 
-    case RECORD_TIME:
+    case timerActions.RECORD_TIME:
       console.log("UPDATING RECORDED TIME");
-      return Object.assign({}, { ...state }, { recordedTime: state.second });
+      return Object.assign({}, state, { recordedTime: state.second });
+
+    case timerActions.SET_INTERVAL_ID:
+      return Object.assign({}, state, { intervalID: action.id });
 
     default:
       return state;

@@ -28,8 +28,8 @@ function randomizeIcons(icons, num) {
   let arr = [];
   let errMsg = [];
 
+  console.log(`NUM: ${num}`);
   if (!num) {
-    console.log(num);
     throw "ERROR: Number of pairs requested is not valid!";
   }
 
@@ -93,7 +93,7 @@ const _boardFsm = {
 };
 
 function Board(props) {
-  const [board, makeBoard] = useState(randomizeIcons(available, props.pairs));
+  const [board, makeBoard] = useState([]);
   const [boardState, setBoardState] = useState(_boardFsm.DO_NOTHING);
 
   useEffect(() => {
@@ -103,9 +103,8 @@ function Board(props) {
       console.log("clearing board");
     } else if (boardState == _boardFsm.CREATE_BOARD) {
       console.log("creating board");
-      let pairs = document.getElementById("numPairs");
-      makeBoard(randomizeIcons(available, pairs.value));
-      props.setPairs(pairs.value);
+      makeBoard(randomizeIcons(available, props.pairs));
+      // props.setPairs(pairs.value);
       props.resetMatch();
       setBoardState(_boardFsm.DO_NOTHING);
     }
@@ -115,7 +114,6 @@ function Board(props) {
     if (props.play) setBoardState(_boardFsm.CLEAR_BOARD);
   }, [props.play]);
 
-  console.log("rendering BOARD");
   return (
     <>
       <ul className="board">

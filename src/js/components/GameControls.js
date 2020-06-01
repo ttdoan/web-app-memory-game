@@ -10,7 +10,8 @@ import {
 import {
   setMemTime,
   incrementTimer,
-  resetTimer
+  resetTimer,
+  setIntervalID
 } from "./../redux/actions/timer-actions";
 
 import {
@@ -22,10 +23,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function GameControls(props) {
-  const [interval, setInternalInterval] = useState();
-
   function startTimer() {
-    setInternalInterval(
+    props.setIntervalID(
       setInterval(() => {
         props.incrementTimer();
       }, 1000)
@@ -33,7 +32,7 @@ function GameControls(props) {
   }
 
   function stopTimer() {
-    clearInterval(interval);
+    clearInterval(props.intervalID);
   }
 
   function start() {
@@ -59,6 +58,15 @@ function GameControls(props) {
   function reset() {
     stopTimer();
     props.resetGame();
+  }
+
+  function back() {
+    stopTimer();
+    let screen = document.getElementById("react-container");
+    screen.classList.toggle("flipped");
+    setTimeout(() => {
+      props.setFlipped(false);
+    }, 200);
   }
 
   useEffect(() => {
@@ -100,14 +108,12 @@ function GameControls(props) {
           //       : "#2999E1"
           // }}
         >
-          {props.fsm == gameFsm.IDLE ? (
+          {props.fsm == gameFsm.IDLE ||
+          props.fsm == gameFsm.PAUSE ||
+          props.fsm == gameFsm.FINISHED ? (
             <FontAwesomeIcon icon={faPlay} />
-          ) : props.fsm == gameFsm.FINISHED ? (
-            "PLAY AGAIN"
-          ) : props.fsm == gameFsm.PLAY || props.fsm == gameFsm.RESUME ? (
-            <FontAwesomeIcon icon={faPause} />
           ) : (
-            "RESUME"
+            <FontAwesomeIcon icon={faPause} />
           )}
         </button>
         <button
@@ -117,7 +123,7 @@ function GameControls(props) {
         >
           <FontAwesomeIcon icon={faRedoAlt} />
         </button>
-        <button className="control-button main-screen-button">
+        <button onClick={back} className="control-button main-screen-button">
           <FontAwesomeIcon icon={faChevronLeft} />
         </button>
       </div>
@@ -126,7 +132,8 @@ function GameControls(props) {
 }
 
 const mapStateToProps = state => ({
-  fsm: state.game.fsm
+  fsm: state.game.fsm,
+  intervalID: state.timer.intervalID
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -136,7 +143,8 @@ const mapDispatchToProps = dispatch => ({
   resetGame: () => dispatch(resetGame()),
   setMemTime: time => dispatch(setMemTime(time)),
   incrementTimer: () => dispatch(incrementTimer()),
-  resetTimer: () => dispatch(resetTimer())
+  resetTimer: () => dispatch(resetTimer()),
+  setIntervalID: id => dispatch(setIntervalID(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameControls);

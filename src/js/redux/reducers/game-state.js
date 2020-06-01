@@ -17,22 +17,26 @@ const gameStatus = (state = initialState, action) => {
     case gameFsm.PLAY:
     case gameFsm.PAUSE:
     case gameFsm.RESUME:
-      return {
-        fsm: action.type,
-        matchCountLeft: state.matchCountLeft
-      };
+      return Object.assign({}, state, { fsm: action.type });
 
     case DECREMENT_MATCH_COUNT:
       if (state.matchCountLeft == 1)
-        return { fsm: gameFsm.FINISHED, matchCountLeft: 0 };
-      else return { fsm: state.fsm, matchCountLeft: state.matchCountLeft - 1 };
+        return Object.assign({}, ...state, {
+          fsm: gameFsm.FINISHED,
+          matchCountLeft: 0
+        });
+      else
+        return Object.assign({}, state, {
+          fsm: state.fsm,
+          matchCountLeft: state.matchCountLeft - 1
+        });
 
     case SET_MATCH_PAIRS:
-      return {
+      console.log("SETTING NUMBER OF PAIRS");
+      return Object.assign({}, state, {
         pairs: action.pairs,
-        fsm: state.fsm,
         matchCountLeft: action.pairs * 2
-      };
+      });
 
     default:
       return state;

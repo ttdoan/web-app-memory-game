@@ -21,7 +21,7 @@ export default function MenuButton(props) {
     <div
       className={
         "menu-button" +
-        (props.flipped ? " flipped" : "") +
+        (props.flipped ? " flipped disabled" : "") +
         (props.classes ? " " + props.classes.join(" ") : "")
       }
       role="button"
@@ -46,7 +46,7 @@ export default function MenuButton(props) {
 }
 
 MenuButton.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  // handleClick: PropTypes.func.isRequired,
   circleClasses: PropTypes.array,
   setCircle: PropTypes.func
 };

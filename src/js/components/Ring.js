@@ -10,44 +10,46 @@ export default function Ring(props) {
   }
 
   function onMouseUp(e) {
-    e.stopPropagation();
+    if (props.circleMovable) {
+      e.stopPropagation();
 
-    console.log("inside ring mouseup");
-    props.removeMouseUpListener();
+      console.log("inside ring mouseup");
+      props.removeMouseUpListener();
 
-    props.setOwnClasses([]);
-
-    let circle = document.querySelector(".button-circle.active");
-    let infoRing = ring.current.getBoundingClientRect();
-    let diffX = infoRing.x - x;
-    let diffY = infoRing.y - y;
-    circle.style.left = props.circlePos.left + diffX + "px";
-    circle.style.top = props.circlePos.top + diffY + "px";
-
-    // Set redux configuration
-    props.confirmOption(props.option);
-
-    props.setCircleMovable(false);
-    circle.classList.toggle("flash");
-    props.setButtonClass(classes => [...classes, "disabled"]);
-    // Add delay to ring transition for flash animation to finish.
-    props.setOwnClasses(["delay"]);
-    // Remove the onMouseMove listener so circle cannot move on mousemove.
-    props.setCircleMovable(false);
-    setTimeout(() => {
-      // Remove the "ring-expand" class.
       props.setOwnClasses([]);
-      // Remove inline style for position so circle can transition back to original position.
-      circle.style.left = null;
-      circle.style.top = null;
-      // Remove the "active" class from circle so it can transition back to original position.
-      props.setCircleClasses([]);
-      props.setButtonClass(classes =>
-        classes.filter(
-          cls => cls == "expand-options" || cls == "expand-complete"
-        )
-      );
-    }, 750);
+
+      let circle = document.querySelector(".button-circle.active");
+      let infoRing = ring.current.getBoundingClientRect();
+      let diffX = infoRing.x - x;
+      let diffY = infoRing.y - y;
+      circle.style.left = props.circlePos.left + diffX + "px";
+      circle.style.top = props.circlePos.top + diffY + "px";
+
+      // Set redux configuration
+      props.confirmOption(props.option);
+
+      props.setCircleMovable(false);
+      circle.classList.toggle("flash");
+      props.setButtonClass(classes => [...classes, "disabled"]);
+      // Add delay to ring transition for flash animation to finish.
+      props.setOwnClasses(["delay"]);
+      // Remove the onMouseMove listener so circle cannot move on mousemove.
+      props.setCircleMovable(false);
+      setTimeout(() => {
+        // Remove the "ring-expand" class.
+        props.setOwnClasses([]);
+        // Remove inline style for position so circle can transition back to original position.
+        circle.style.left = null;
+        circle.style.top = null;
+        // Remove the "active" class from circle so it can transition back to original position.
+        props.setCircleClasses([]);
+        props.setButtonClass(classes =>
+          classes.filter(
+            cls => cls == "expand-options" || cls == "expand-complete"
+          )
+        );
+      }, 750);
+    }
   }
 
   const ring = useRef(null);
@@ -79,7 +81,7 @@ export default function Ring(props) {
       className={
         "ring" +
         ` mem-ring-${props.id}` +
-        (props.flipped ? " flipped" : "") +
+        (props.flipped ? " flipped disabled" : "") +
         (props.ownClasses.length != 0 ? " " + props.ownClasses.join(" ") : "")
       }
     >
