@@ -10,11 +10,18 @@ function StartPairsButton(props) {
   }
 
   function onClick() {
+    let screen;
+
     switch (props.name) {
       case "START":
-        // TODO: do some animation, then setTimeout for the below functions
-        props.resetTimer();
-        props.startGame();
+        screen = document.getElementById("react-container");
+
+        screen.classList.toggle("flipped");
+        props.setFlipped(true);
+        setTimeout(() => {
+          props.resetTimer();
+          props.startGame();
+        }, 750);
         break;
 
       case "PAIRS":
@@ -36,6 +43,7 @@ function StartPairsButton(props) {
       classes={props.classes}
       setOwnClasses={props.setClasses}
       optionSelect={props.name === "PAIRS"}
+      flipped={props.flipped}
     />
   );
 }

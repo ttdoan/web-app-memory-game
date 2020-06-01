@@ -20,7 +20,9 @@ export default function MenuButton(props) {
   return (
     <div
       className={
-        "menu-button " + (props.classes ? props.classes.join(" ") : "")
+        "menu-button" +
+        (props.flipped ? " flipped" : "") +
+        (props.classes ? " " + props.classes.join(" ") : "")
       }
       role="button"
       onClick={onClick}

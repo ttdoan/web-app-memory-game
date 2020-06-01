@@ -5,7 +5,7 @@ import GameControls from "./GameControls";
 
 export default function PlayScreen() {
   return (
-    <div>
+    <div className="screen play-screen">
       <Timer />
       {/* <Board /> */}
       <GameControls />

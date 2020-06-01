@@ -32,6 +32,7 @@ $inner-circle-diameter: $menu-button-height/2;
   z-index: 1;
   box-sizing: border-box;
   user-select: none;
+  backface-visibility: hidden;
 }
 
 .menu-button .button-circle {
@@ -247,6 +248,7 @@ $inner-circle-diameter: $menu-button-height/2;
   display: flex;
   justify-content: center;
   position: relative;
+  backface-visibility: hidden;
 }
 
 .ring {
@@ -260,6 +262,7 @@ $inner-circle-diameter: $menu-button-height/2;
   border-radius: 50%;
   font-size: 4vh;
   transition: transform 750ms;
+  backface-visibility: hidden;
 }
 
 .expand-options {

@@ -79,6 +79,7 @@ export default function Ring(props) {
       className={
         "ring" +
         ` mem-ring-${props.id}` +
+        (props.flipped ? " flipped" : "") +
         (props.ownClasses.length != 0 ? " " + props.ownClasses.join(" ") : "")
       }
     >

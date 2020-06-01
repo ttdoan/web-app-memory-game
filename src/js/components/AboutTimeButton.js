@@ -44,6 +44,7 @@ function AboutTimeButton(props) {
       onClick={onClick}
       setOwnClasses={props.setClasses[2]}
       optionSelect={props.name === "MEMORIZE"}
+      flipped={props.flipped}
     />
   );
 }

@@ -20,7 +20,10 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: black;
-  overflow: hidden;
+  /* TODO: for some reason, its messing with the flipping of the card... */
+  /* overflow: hidden; */
+  transition: transform 750ms;
+  transform-style: preserve-3d;
 }
 
 .hidden {
@@ -51,6 +54,25 @@ button {
 
 .col-3 {
   grid-column: span 3;
+}
+
+.screen {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.main-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.play-screen {
+  transform: rotateY(180deg);
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */

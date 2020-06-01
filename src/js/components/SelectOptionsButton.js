@@ -143,6 +143,7 @@ export default function SelectOptionsButton(props) {
         classes={props.classes}
         setCircle={setCircleRef}
         circleClasses={circleClasses}
+        flipped={props.flipped}
       />
       {props.optionList.map((time, idx) => {
         let deg = (360 / props.optionList.length) * idx;
@@ -161,6 +162,7 @@ export default function SelectOptionsButton(props) {
             circlePos={circlePos}
             setButtonClass={props.setOwnClasses}
             removeMouseUpListener={removeMouseUpListener}
+            flipped={props.flipped}
           />
         );
       })}

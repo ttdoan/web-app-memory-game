@@ -19,8 +19,17 @@ import "./../css/gamecontrols.css";
 function Game() {
   return (
     <>
-      {/* <MainScreen /> */}
+      <MainScreen />
       <PlayScreen />
+
+      {/* <div className="card-container">
+        <div className="card front">
+          <p>yes</p>
+        </div>
+        <div className="card back">
+          <p>hey</p>
+        </div>
+      </div> */}
     </>
   );
 }

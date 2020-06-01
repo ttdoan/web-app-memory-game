@@ -14,6 +14,11 @@ export default function OptionButton(props) {
 
   // console.log("rendering option button");
   return (
-    <MenuButton name={props.name} onClick={onClick} classes={props.classes} />
+    <MenuButton
+      name={props.name}
+      onClick={onClick}
+      classes={props.classes}
+      flipped={props.flipped}
+    />
   );
 }
