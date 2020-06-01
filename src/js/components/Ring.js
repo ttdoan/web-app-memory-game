@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 export default function Ring(props) {
   function onTransitionEnd() {
     let info = ring.current.getBoundingClientRect();
-    if (x === Math.floor(info.x) && y === Math.floor(info.y)) {
+    if (x === info.x && y === info.y) {
       props.setButtonClass(["expand-options"]);
     } else props.setCircleMovable(true);
   }
@@ -24,7 +24,7 @@ export default function Ring(props) {
     circle.style.left = props.circlePos.left + diffX + "px";
     circle.style.top = props.circlePos.top + diffY + "px";
 
-    // TODO: need to set to redux configuration
+    // Set redux configuration
     props.confirmOption(props.option);
 
     props.setCircleMovable(false);
@@ -56,8 +56,8 @@ export default function Ring(props) {
 
   useEffect(() => {
     let info = ring.current.getBoundingClientRect();
-    setX(Math.floor(info.x));
-    setY(Math.floor(info.y));
+    setX(info.x);
+    setY(info.y);
 
     let style = document.getElementById("mem-ring-ss");
     // Dynamically add classes to ring for animation based on its degree.
