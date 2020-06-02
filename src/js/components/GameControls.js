@@ -5,7 +5,8 @@ import {
   playGame,
   pauseGame,
   resumeGame,
-  resetGame
+  resetGame,
+  resetBoard
 } from "./../redux/actions/game-actions";
 import {
   setMemTime,
@@ -57,13 +58,16 @@ function GameControls(props) {
 
   function reset() {
     stopTimer();
-    props.resetGame();
+    // Sets timer to 0.
+    props.resetTimer();
+    props.resetBoard();
   }
 
   function back() {
     stopTimer();
     let screen = document.getElementById("react-container");
     screen.classList.toggle("flipped");
+    props.resetTimer();
     setTimeout(() => {
       props.setFlipped(false);
     }, 200);
@@ -96,18 +100,7 @@ function GameControls(props) {
   return (
     <>
       <div className="game-controls">
-        <button
-          onClick={click}
-          className="control-button play-pause-button"
-          // style={{
-          //   backgroundColor:
-          //     props.fsm == gameFsm.IDLE || props.fsm == gameFsm.FINISHED
-          //       ? "#00E000"
-          //       : props.fsm == gameFsm.PLAY || props.fsm == gameFsm.RESUME
-          //       ? "#DA0000"
-          //       : "#2999E1"
-          // }}
-        >
+        <button onClick={click} className="control-button play-pause-button">
           {props.fsm == gameFsm.IDLE ||
           props.fsm == gameFsm.PAUSE ||
           props.fsm == gameFsm.FINISHED ? (
@@ -116,11 +109,7 @@ function GameControls(props) {
             <FontAwesomeIcon icon={faPause} />
           )}
         </button>
-        <button
-          onClick={reset}
-          className="control-button restart-button"
-          // style={{ backgroundColor: "#FF9100" }}
-        >
+        <button onClick={reset} className="control-button restart-button">
           <FontAwesomeIcon icon={faRedoAlt} />
         </button>
         <button onClick={back} className="control-button main-screen-button">
@@ -141,6 +130,7 @@ const mapDispatchToProps = dispatch => ({
   pauseGame: () => dispatch(pauseGame()),
   resumeGame: () => dispatch(resumeGame()),
   resetGame: () => dispatch(resetGame()),
+  resetBoard: () => dispatch(resetBoard()),
   setMemTime: time => dispatch(setMemTime(time)),
   incrementTimer: () => dispatch(incrementTimer()),
   resetTimer: () => dispatch(resetTimer()),

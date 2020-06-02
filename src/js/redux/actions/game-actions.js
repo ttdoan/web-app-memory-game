@@ -9,7 +9,7 @@ const pauseGame = () => ({
 });
 
 const resumeGame = () => ({
-  type: gameFsm.RESUME
+  type: gameFsm.PLAY
 });
 
 const finishGame = () => ({
@@ -25,6 +25,10 @@ const setPairs = pairs => ({
   pairs
 });
 
+const resetBoard = () => ({
+  type: gameFsm.RESET_BOARD
+});
+
 export {
   playGame,
   resetGame,
@@ -32,5 +36,6 @@ export {
   resumeGame,
   finishGame,
   decrementCount,
-  setPairs
+  setPairs,
+  resetBoard
 };

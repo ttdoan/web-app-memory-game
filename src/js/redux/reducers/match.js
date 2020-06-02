@@ -19,29 +19,21 @@ function matchItem(state, action) {
     case matchState.MATCH_IDLE:
       _state = matchState.MATCH_COMPARE;
       _matchName = action.item.name;
-      return Object.assign(
-        {},
-        { ...state },
-        {
-          firstMatchId: action.item.id,
-          secondMatch: "",
-          result: matchResult.MATCH_NO_RESULT
-        }
-      );
+      return Object.assign({}, state, {
+        firstMatchId: action.item.id,
+        secondMatch: "",
+        result: matchResult.MATCH_NO_RESULT
+      });
 
     case matchState.MATCH_COMPARE:
       _state = matchState.MATCH_IDLE;
-      return Object.assign(
-        {},
-        { ...state },
-        {
-          secondMatchId: action.item.id,
-          result:
-            _matchName === action.item.name
-              ? matchResult.MATCH_SUCCESS
-              : matchResult.MATCH_FAILURE
-        }
-      );
+      return Object.assign({}, state, {
+        secondMatchId: action.item.id,
+        result:
+          _matchName === action.item.name
+            ? matchResult.MATCH_SUCCESS
+            : matchResult.MATCH_FAILURE
+      });
   }
 }
 

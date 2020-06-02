@@ -6,22 +6,21 @@ import {
 
 let initialState = {
   pairs: 8,
-  fsm: gameFsm.IDLE,
-  matchCountLeft: 16
+  fsm: gameFsm.IDLE
 };
+initialState["matchCountLeft"] = initialState.pairs * 2;
 
 const gameStatus = (state = initialState, action) => {
   switch (action.type) {
     case gameFsm.IDLE:
-    case gameFsm.MEMORIZE:
     case gameFsm.PLAY:
     case gameFsm.PAUSE:
-    case gameFsm.RESUME:
+    case gameFsm.RESET_BOARD:
       return Object.assign({}, state, { fsm: action.type });
 
     case DECREMENT_MATCH_COUNT:
       if (state.matchCountLeft == 1)
-        return Object.assign({}, ...state, {
+        return Object.assign({}, state, {
           fsm: gameFsm.FINISHED,
           matchCountLeft: 0
         });

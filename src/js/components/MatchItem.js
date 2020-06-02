@@ -18,6 +18,7 @@ function MatchItem(props) {
 
   useEffect(() => {
     if (props.memOver) setClasses(["flipped"]);
+    else setClasses(["disabled"]);
   }, [props.memOver]);
 
   useEffect(() => {

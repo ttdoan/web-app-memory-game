@@ -1,9 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import MatchItem from "./MatchItem";
 import { gameFsm } from "./../redux/actions/types";
-import { setPairs } from "./../redux/actions/game-actions";
 import { resetMatch } from "./../redux/actions/match-actions";
+import { playGame } from "./../redux/actions/game-actions";
+import {
+  incrementTimer,
+  setIntervalID
+} from "./../redux/actions/timer-actions";
 // Font Awesome
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -104,6 +108,14 @@ let boardHeight =
   0.65;
 
 function Board(props) {
+  function startTimer() {
+    props.setIntervalID(
+      setInterval(() => {
+        props.incrementTimer();
+      }, 1000)
+    );
+  }
+
   // TODO: need to create default board, not empty board...
   const [board, makeBoard] = useState([]);
   const [boardState, setBoardState] = useState(_boardFsm.DO_NOTHING);
@@ -133,15 +145,18 @@ function Board(props) {
       });
       console.log("creating board");
       makeBoard(randomizeIcons(available, props.pairs));
+
       props.resetMatch();
+      props.startGame();
+      startTimer();
 
       setBoardState(_boardFsm.DO_NOTHING);
     }
   }, [makeBoard, boardState, props]);
 
   useEffect(() => {
-    if (props.play) setBoardState(_boardFsm.CLEAR_BOARD);
-  }, [props.play]);
+    if (props.resetBoard) setBoardState(_boardFsm.CLEAR_BOARD);
+  }, [props.resetBoard]);
 
   return (
     <>
@@ -168,12 +183,14 @@ function Board(props) {
 
 const mapStateToProps = state => ({
   pairs: state.game.pairs,
-  play: state.game.fsm == gameFsm.PLAY
+  resetBoard: state.game.fsm == gameFsm.RESET_BOARD
 });
 
 const mapDispatchToProps = dispatch => ({
-  setPairs: pairs => dispatch(setPairs(pairs)),
-  resetMatch: () => dispatch(resetMatch())
+  resetMatch: () => dispatch(resetMatch()),
+  startGame: () => dispatch(playGame()),
+  incrementTimer: () => dispatch(incrementTimer()),
+  setIntervalID: id => dispatch(setIntervalID(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

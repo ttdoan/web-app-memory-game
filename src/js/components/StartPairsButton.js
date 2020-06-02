@@ -1,24 +1,11 @@
 import React from "react";
 import SelectOptionsButton from "./SelectOptionsButton";
 import { connect } from "react-redux";
-import { setPairs, playGame } from "./../redux/actions/game-actions";
-import {
-  resetTimer,
-  incrementTimer,
-  setIntervalID
-} from "./../redux/actions/timer-actions";
+import { setPairs, resetBoard } from "./../redux/actions/game-actions";
 
 function StartPairsButton(props) {
   function confirmOption(option) {
     props.setPairs(option);
-  }
-
-  function startTimer() {
-    props.setIntervalID(
-      setInterval(() => {
-        props.incrementTimer();
-      }, 1000)
-    );
   }
 
   function onClick() {
@@ -30,9 +17,7 @@ function StartPairsButton(props) {
         screen.classList.toggle("flipped");
         props.setFlipped(true);
         setTimeout(() => {
-          props.resetTimer();
-          props.startGame();
-          startTimer();
+          props.resetBoard();
         }, 750);
         break;
 
@@ -62,10 +47,7 @@ function StartPairsButton(props) {
 
 const mapDispatchToProps = dispatch => ({
   setPairs: pairs => dispatch(setPairs(pairs)),
-  startGame: () => dispatch(playGame()),
-  resetTimer: () => dispatch(resetTimer()),
-  incrementTimer: () => dispatch(incrementTimer()),
-  setIntervalID: id => dispatch(setIntervalID(id))
+  resetBoard: () => dispatch(resetBoard())
 });
 
 export default connect(null, mapDispatchToProps)(StartPairsButton);
