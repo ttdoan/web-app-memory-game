@@ -48,6 +48,7 @@ function MatchItem(props) {
       className={"match-item-container " + classes.join(" ")}
       onClick={clicked}
       onKeyDown={clicked}
+      style={props.itemStyle}
     >
       <div className="back-item">
         <FontAwesomeIcon icon={["far", "question-circle"]} />

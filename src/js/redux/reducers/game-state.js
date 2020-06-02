@@ -32,7 +32,6 @@ const gameStatus = (state = initialState, action) => {
         });
 
     case SET_MATCH_PAIRS:
-      console.log("SETTING NUMBER OF PAIRS");
       return Object.assign({}, state, {
         pairs: action.pairs,
         matchCountLeft: action.pairs * 2

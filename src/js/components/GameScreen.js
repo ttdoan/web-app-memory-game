@@ -7,7 +7,7 @@ export default function PlayScreen(props) {
   return (
     <div className="screen play-screen">
       <Timer />
-      {/* <Board /> */}
+      <Board />
       <GameControls setFlipped={props.setFlipped} />
     </div>
   );

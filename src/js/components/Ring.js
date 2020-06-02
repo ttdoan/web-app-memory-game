@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 
 export default function Ring(props) {
   function onTransitionEnd() {
-    let info = ring.current.getBoundingClientRect();
-    if (x === info.x && y === info.y) {
-      props.setButtonClass(["expand-options"]);
-    } else props.setCircleMovable(true);
+    if (!props.flipped) {
+      let info = ring.current.getBoundingClientRect();
+      if (x === info.x && y === info.y)
+        props.setButtonClass(["expand-options"]);
+      else props.setCircleMovable(true);
+    }
   }
 
   function onMouseUp(e) {

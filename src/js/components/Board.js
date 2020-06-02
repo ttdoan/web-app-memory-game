@@ -20,7 +20,11 @@ let available = {
     "chess-rook",
     "puzzle-piece",
     "star-and-crescent",
-    "atom"
+    "atom",
+    "biohazard",
+    "dove",
+    "heartbeat",
+    "hat-wizard"
   ]
 };
 
@@ -92,9 +96,18 @@ const _boardFsm = {
   CREATE_BOARD: "CREATE_BOARD"
 };
 
+let vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+// Board height is calculated from the total height of screen, subtracting the total height
+// of the Timer and GameControls components.
+let boardHeight =
+  Math.max(document.documentElement.clientHeight, window.innerHeight || 0) *
+  0.65;
+
 function Board(props) {
+  // TODO: need to create default board, not empty board...
   const [board, makeBoard] = useState([]);
   const [boardState, setBoardState] = useState(_boardFsm.DO_NOTHING);
+  const [matchItemStyle, setMatchItemStyle] = useState({});
 
   useEffect(() => {
     if (boardState == _boardFsm.CLEAR_BOARD) {
@@ -102,10 +115,26 @@ function Board(props) {
       setBoardState(_boardFsm.CREATE_BOARD);
       console.log("clearing board");
     } else if (boardState == _boardFsm.CREATE_BOARD) {
+      let itemsPerRow = props.pairs % 5 === 0 ? 5 : 4;
+      let rows = (props.pairs * 2) / itemsPerRow;
+      let rowGap = boardHeight * 0.0333;
+      let colGap = vw * 0.0333;
+      let itemSize = Math.min(
+        (boardHeight - rowGap * (rows - 1)) / rows,
+        (vw - itemsPerRow * colGap) / itemsPerRow
+      );
+      let borderRadius = itemSize / 2.5;
+
+      setMatchItemStyle({
+        width: itemSize,
+        height: itemSize,
+        fontSize: itemSize / 2,
+        borderRadius: borderRadius
+      });
       console.log("creating board");
       makeBoard(randomizeIcons(available, props.pairs));
-      // props.setPairs(pairs.value);
       props.resetMatch();
+
       setBoardState(_boardFsm.DO_NOTHING);
     }
   }, [makeBoard, boardState, props]);
@@ -116,9 +145,21 @@ function Board(props) {
 
   return (
     <>
-      <ul className="board">
+      <ul
+        className="board"
+        style={{
+          gridTemplateColumns: `repeat(4, ${matchItemStyle.width}px)`
+        }}
+      >
         {board.map((item, idx) => {
-          return <MatchItem key={idx} id={idx} icon={item} />;
+          return (
+            <MatchItem
+              key={idx}
+              id={idx}
+              icon={item}
+              itemStyle={matchItemStyle}
+            />
+          );
         })}
       </ul>
     </>

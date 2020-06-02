@@ -8,7 +8,7 @@ function Timer(props) {
   }, [props.gameFinished]);
 
   const hours = Math.floor(props.timer.second / 3600);
-  const mins = Math.floor(props.timer.second / 60);
+  const mins = Math.floor(props.timer.second / 60) % 60;
   const secs = props.timer.second % 60;
 
   console.log("rendering timer");
