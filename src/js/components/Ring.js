@@ -1,11 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import { useEventListener } from "./../utily-functions";
 
 export default function Ring(props) {
   function onTransitionEnd() {
     if (!props.flipped) {
+      console.log("on ring transition end");
+      // On rare occasions, getBoundingClientRect() returns coordinates of the
+      // ring that are off by a small amount, causing setCircleMovable(true),
+      // which causes the event listener mousemove to be added.
+      let errTolerance = 0.014;
       let info = ring.current.getBoundingClientRect();
-      if (x === info.x && y === info.y)
+      if (
+        Math.abs(x - info.x) < errTolerance &&
+        Math.abs(y - info.y) < errTolerance
+      )
+        // TODO: Do i need disabled here...? Setting disabled here will cause user not
+        // be able to touch menu button once rings come back to original position
+        // props.setButtonClass(["expand-options", "disabled"]);
         props.setButtonClass(["expand-options"]);
       else props.setCircleMovable(true);
     }
@@ -13,12 +25,12 @@ export default function Ring(props) {
 
   function onMouseUp(e) {
     if (props.circleMovable) {
+      // Stop event bubbling so listener on window won't execute.
       e.stopPropagation();
 
       console.log("inside ring mouseup");
+      // Remove the mouseup event listener from window.
       props.removeMouseUpListener();
-
-      props.setOwnClasses([]);
 
       let circle = document.querySelector(".button-circle.active");
       let infoRing = ring.current.getBoundingClientRect();
@@ -37,8 +49,10 @@ export default function Ring(props) {
       props.setOwnClasses(["delay"]);
       // Remove the onMouseMove listener so circle cannot move on mousemove.
       props.setCircleMovable(false);
+
+      // Add a timeout to wait for flash animation for option selection to finish.
       setTimeout(() => {
-        // Remove the "ring-expand" class.
+        // Remove the "ring-expand" class so the rings will transition back to original position.
         props.setOwnClasses([]);
         // Remove inline style for position so circle can transition back to original position.
         circle.style.left = null;
@@ -47,10 +61,22 @@ export default function Ring(props) {
         props.setCircleClasses([]);
         props.setButtonClass(classes =>
           classes.filter(
-            cls => cls == "expand-options" || cls == "expand-complete"
+            cls =>
+              cls == "expand-options" ||
+              cls == "expand-complete" ||
+              cls == "disabled"
           )
         );
       }, 750);
+    }
+  }
+
+  function onTouchEnd(e) {
+    console.log("calling touchend on ring");
+    if (props.circleMovable) {
+      e.preventDefault();
+
+      onMouseUp(e);
     }
   }
 
@@ -75,10 +101,13 @@ export default function Ring(props) {
     }`);
   }, []);
 
+  useEventListener("mouseup", onMouseUp, ring.current);
+  useEventListener("touchend", onTouchEnd, ring.current);
+
   return (
     <div
       ref={ring}
-      onMouseUp={onMouseUp}
+      // onMouseUp={onMouseUp}
       onTransitionEnd={onTransitionEnd}
       className={
         "ring" +

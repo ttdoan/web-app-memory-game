@@ -59,14 +59,39 @@ $inner-circle-diameter: $menu-button-height/2;
   opacity: 1;
 }
 
-@keyframes roll {
+@mixin keyframes-animation($name) {
+  @-o-keyframes #{$name} {
+    @content;
+  }
+
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@mixin prefix-property($prop, $value) {
+  -moz-#{$prop}: $value;
+  -ms-#{$prop}: $value;
+  -webkit-#{$prop}: $value;
+  $prop: $value;
+}
+
+@include keyframes-animation(roll) {
   100% {
     width: $menu-button-height;
     letter-spacing: $menu-button-height * 1.5;
   }
 }
 
-@keyframes unroll {
+@include keyframes-animation(unroll) {
   0% {
     width: $menu-button-height;
     letter-spacing: $menu-button-height * 1.5;
@@ -78,7 +103,7 @@ $inner-circle-diameter: $menu-button-height/2;
   }
 }
 
-@keyframes expand {
+@include keyframes-animation(expand) {
   0% {
     position: absolute;
     width: $inner-circle-diameter;
@@ -87,16 +112,33 @@ $inner-circle-diameter: $menu-button-height/2;
   100% {
     position: absolute;
     border-radius: 0;
-    transform: scale(100);
+    @include prefix-property(transform, scale(100));
     background-color: teal;
   }
 }
 
-@keyframes shrink {
+// @keyframes shrink {
+//   0% {
+//     position: absolute;
+//     border-radius: 0;
+//     transform: scale(100);
+//     background-color: teal;
+//   }
+
+//   100% {
+//     position: absolute;
+//     width: $inner-circle-diameter;
+//     height: $inner-circle-diameter;
+//     transform: translate(0, -50%);
+//     background-color: gold;
+//   }
+// }
+
+@include keyframes-animation(shrink) {
   0% {
     position: absolute;
     border-radius: 0;
-    transform: scale(100);
+    @include prefix-property(transform, scale(100));
     background-color: teal;
   }
 
@@ -104,12 +146,12 @@ $inner-circle-diameter: $menu-button-height/2;
     position: absolute;
     width: $inner-circle-diameter;
     height: $inner-circle-diameter;
-    transform: translate(0, -50%);
+    @include prefix-property(transform, translate(0, -50%));
     background-color: gold;
   }
 }
 
-@keyframes hide {
+@include keyframes-animation(hide) {
   0% {
     opacity: 1;
   }
@@ -119,7 +161,7 @@ $inner-circle-diameter: $menu-button-height/2;
   }
 }
 
-@keyframes reveal {
+@include keyframes-animation(reveal) {
   0% {
     opacity: 0;
   }
@@ -129,7 +171,7 @@ $inner-circle-diameter: $menu-button-height/2;
   }
 }
 
-@keyframes unwrap {
+@include keyframes-animation(unwrap) {
   0% {
     overflow: hidden;
   }
@@ -139,7 +181,7 @@ $inner-circle-diameter: $menu-button-height/2;
   }
 }
 
-@keyframes wrapp {
+@include keyframes-animation(wrapp) {
   0% {
     overflow: visible;
   }
@@ -149,7 +191,7 @@ $inner-circle-diameter: $menu-button-height/2;
   }
 }
 
-@keyframes flash {
+@include keyframes-animation(flash) {
   0%,
   50%,
   100% {
@@ -163,12 +205,15 @@ $inner-circle-diameter: $menu-button-height/2;
 }
 
 .flash {
-  animation-name: flash;
-  animation-duration: 750ms;
+  // animation-name: flash;
+  @include prefix-property(animation-name, flash);
+  // animation-duration: 750ms;
+  @include prefix-property(animation-duration, 750ms);
 }
 
 .full-roll {
   animation-name: roll, unroll;
+  // @include prefix-property(animation-name, "roll, unroll");
   animation-duration: 750ms, 750ms;
   animation-delay: 0ms, 750ms;
   animation-fill-mode: forwards, forwards;
@@ -316,6 +361,7 @@ $inner-circle-diameter: $menu-button-height/2;
 
 .disabled {
   pointer-events: none;
+  touch-action: none;
 }
 
 .stacked {

@@ -7,7 +7,7 @@ import Ring from "./Ring";
 // original image of function to remove event listener correctly...
 // Need to find out why...
 let onMouseUpRef = null;
-let onMouseMoveRef = null;
+let onMoveRef = {};
 const btnWidth = Math.floor(
   Math.max(document.documentElement.clientHeight, window.innerHeight || 0) *
     0.08
@@ -33,13 +33,26 @@ export default function SelectOptionsButton(props) {
   const [ringClasses, setRingClasses] = useState([]);
   const [prevWidth, setPrevWidth] = useState(0);
 
-  function onMouseDown() {
-    console.log("ON MOUSE DOWN");
+  function mouseDownCore(evType, listener) {
     if (props.optionSelect) {
       props.setOwnClasses(["expand-options", "active"]);
       console.log("ADDING MOUSEUP EVENT ON WINDOW...");
-      window.addEventListener("mouseup", onMouseUp);
+      window.addEventListener(evType, listener);
       onMouseUpRef = onMouseUp;
+    }
+  }
+
+  function onMouseDown() {
+    console.log("ON MOUSE DOWN");
+    mouseDownCore("mouseup", onMouseUp);
+  }
+
+  function onTouchStart(e) {
+    if (props.optionSelect) {
+      e.preventDefault();
+
+      console.log("on touch start");
+      mouseDownCore("touchend", onTouchEnd);
     }
   }
 
@@ -50,9 +63,9 @@ export default function SelectOptionsButton(props) {
     window.removeEventListener("mouseup", onMouseUpRef);
   }
 
-  function onMouseUp() {
+  function mouseUpCore(evType, listener) {
     console.log("inside abouttime button mouseup");
-    window.removeEventListener("mouseup", onMouseUp);
+    window.removeEventListener(evType, listener);
     setCircleMovable(false);
     setCircleClasses([]);
     setRingClasses([]);
@@ -61,6 +74,31 @@ export default function SelectOptionsButton(props) {
     props.setOwnClasses(classes =>
       classes.filter(cls => cls == "expand-options" || cls == "expand-complete")
     );
+  }
+
+  function onMouseUp(e) {
+    console.log("calling mouseup");
+    console.log(e);
+    mouseUpCore("mouseup", onMouseUp);
+  }
+
+  function onTouchEnd(e) {
+    e.preventDefault();
+
+    // Touch events differ from mouse events in that the target for
+    // touch events is always the element that the touch started with,
+    // whereas the target for mouse events is the element where the
+    // cursor is at.
+    //
+    // Therefore, I need to manually find the element at the touch
+    // coordinates and manually fire an event.
+    let ele = document.elementFromPoint(
+      e.changedTouches[0].clientX,
+      e.changedTouches[0].clientY
+    );
+    if (ele.classList.contains("ring"))
+      ele.dispatchEvent(new TouchEvent("touchend"));
+    else mouseUpCore("touchend", onTouchEnd);
   }
 
   function onTransitionEnd() {
@@ -94,11 +132,19 @@ export default function SelectOptionsButton(props) {
 
   function onMouseMove(e) {
     if (circleMovable) {
-      let diffX = circlePos.x - e.clientX;
-      let diffY = circlePos.y - e.clientY;
+      let diffX = circlePos.x - (e.clientX ? e.clientX : e.touches[0].clientX);
+      let diffY = circlePos.y - (e.clientY ? e.clientY : e.touches[0].clientY);
       circleRef.style.left =
         circlePos.left - diffX - circlePos.width / 2 + "px";
       circleRef.style.top = circlePos.top - diffY - circlePos.height / 2 + "px";
+    }
+  }
+
+  function onTouchMove(e) {
+    if (circleMovable) {
+      e.preventDefault();
+
+      onMouseMove(e);
     }
   }
 
@@ -107,11 +153,21 @@ export default function SelectOptionsButton(props) {
     if (circleMovable) {
       console.log("ADDING EVENT LISTENER...");
       window.addEventListener("mousemove", onMouseMove);
+      // Event listeners for window are passive by default. In order to call
+      // preventDefault() on Touch events (to prevent Mouse events from being
+      // called), we need to force the listeners to be active.
+      window.addEventListener("touchmove", onTouchMove, { passive: false });
       setCircleClasses(["active"]);
-      onMouseMoveRef = onMouseMove;
+      onMoveRef.mouse = onMouseMove;
+      onMoveRef.touch = onTouchMove;
     } else {
       console.log("REMOVING EVENT LISTENER...");
-      window.removeEventListener("mousemove", onMouseMoveRef);
+      if (onMoveRef.mouse)
+        window.removeEventListener("mousemove", onMoveRef.mouse);
+      if (onMoveRef.touch)
+        window.removeEventListener("touchmove", onMoveRef.touch, {
+          passive: false
+        });
     }
   }, [circleMovable]);
 
@@ -139,6 +195,7 @@ export default function SelectOptionsButton(props) {
         name={props.name}
         onClick={props.onClick}
         onMouseDown={onMouseDown}
+        onTouchStart={onTouchStart}
         onTransitionEnd={onTransitionEnd}
         classes={props.classes}
         setCircle={setCircleRef}

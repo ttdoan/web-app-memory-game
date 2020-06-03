@@ -68,6 +68,8 @@ function GameControls(props) {
     let screen = document.getElementById("react-container");
     screen.classList.toggle("flipped");
     props.resetTimer();
+    // Need to set flipped early because the menu buttons need
+    // to flip too.
     setTimeout(() => {
       props.setFlipped(false);
     }, 200);
