@@ -1,0 +1,27 @@
+// Common module that contains variables and functions for all stylesheets.
+
+@mixin keyframes-animation($name) {
+  @-o-keyframes #{$name} {
+    @content;
+  }
+
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@mixin prefix-property($prop, $value...) {
+  -moz-#{$prop}: $value;
+  -ms-#{$prop}: $value;
+  -webkit-#{$prop}: $value;
+  -o-#{$prop}: $value;
+  #{$prop}: $value;
+}

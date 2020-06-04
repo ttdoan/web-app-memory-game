@@ -76,9 +76,8 @@ export default function SelectOptionsButton(props) {
     );
   }
 
-  function onMouseUp(e) {
+  function onMouseUp() {
     console.log("calling mouseup");
-    console.log(e);
     mouseUpCore("mouseup", onMouseUp);
   }
 

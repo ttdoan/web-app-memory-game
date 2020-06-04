@@ -11,10 +11,12 @@ import GameScreen from "./components/GameScreen";
 // Dependencies
 import "./../css/style.css";
 import "./../css/display.css";
-import "./../scss/dashboard.scss";
 import "./../css/timer.css";
-import "./../scss/board.scss";
 import "./../css/gamecontrols.css";
+
+import "./../scss/common.scss";
+import "./../scss/board.scss";
+import "./../scss/dashboard.scss";
 
 function Game() {
   const [flipped, setFlipped] = useState(false);
