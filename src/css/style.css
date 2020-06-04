@@ -59,6 +59,7 @@ button {
 .screen {
   height: 100%;
   width: 100%;
+  overflow: hidden;
   position: absolute;
   -moz-backface-visibility: hidden;
   -webkit-backface-visibility: hidden;

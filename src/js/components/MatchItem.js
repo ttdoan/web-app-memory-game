@@ -54,7 +54,9 @@ function MatchItem(props) {
       <div className="back-item">
         <FontAwesomeIcon icon={["far", "question-circle"]} />
       </div>
-      <FontAwesomeIcon className="match-item" icon={props.icon} />
+      <div className="match-item">
+        <FontAwesomeIcon icon={props.icon} />
+      </div>
     </li>
   );
 }

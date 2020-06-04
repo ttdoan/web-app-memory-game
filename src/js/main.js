@@ -10,7 +10,6 @@ import MainScreen from "./components/MainScreen";
 import GameScreen from "./components/GameScreen";
 // Dependencies
 import "./../css/style.css";
-import "./../css/display.css";
 import "./../css/timer.css";
 import "./../css/gamecontrols.css";
 

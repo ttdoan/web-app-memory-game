@@ -237,7 +237,6 @@ $inner-circle-diameter: $menu-button-height/2;
   height: 100vh;
   font-size: 4vh;
   visibility: hidden;
-  overflow: hidden;
   opacity: 0;
   @include common.prefix-property(transition, opacity 500ms);
 }
@@ -342,10 +341,6 @@ $inner-circle-diameter: $menu-button-height/2;
 .disabled {
   pointer-events: none;
   touch-action: none;
-}
-
-.stacked {
-  position: absolute;
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
