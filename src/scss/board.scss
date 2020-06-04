@@ -55,6 +55,9 @@ svg {
   border-radius: inherit;
   box-sizing: border-box;
   font-size: inherit;
+  // For some reason, Firefox has issues with backface-visibility:hidden.
+  // Adding this property fixes the issue.
+  transform: rotateX(0deg);
 }
 
 .back-item {
