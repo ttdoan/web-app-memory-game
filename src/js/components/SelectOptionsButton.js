@@ -8,10 +8,6 @@ import Ring from "./Ring";
 // Need to find out why...
 let onMouseUpRef = null;
 let onMoveRef = {};
-const btnWidth = Math.floor(
-  Math.max(document.documentElement.clientHeight, window.innerHeight || 0) *
-    0.08
-);
 
 export default function SelectOptionsButton(props) {
   const self = useRef(null);
@@ -31,7 +27,7 @@ export default function SelectOptionsButton(props) {
   const [circlePos, setCirclePos] = useState();
   const [posAlreadySet, setPosAlreadySet] = useState(false);
   const [ringClasses, setRingClasses] = useState([]);
-  const [prevWidth, setPrevWidth] = useState(0);
+  const [fullWidth, setFullWidth] = useState(0);
 
   function mouseDownCore(evType, listener) {
     if (props.optionSelect) {
@@ -100,37 +96,33 @@ export default function SelectOptionsButton(props) {
     else mouseUpCore("touchend", onTouchEnd);
   }
 
-  function onTransitionEnd() {
-    if (props.optionSelect) {
+  function onTransitionEnd(e) {
+    // One onTransitionEnd event is fired for every property. We only care when
+    // the width of the button changes to know whether the button has contracted or
+    // expanded.
+    if (props.optionSelect && e.propertyName === "width") {
       let currWidth = Math.floor(self.current.getBoundingClientRect().width);
-      // One onTransitionEnd event is fired for every property. We only care when
-      // the width of the button changes.
-      alert(`
-        PrevWidth: ${prevWidth}
-        CurrWidth: ${currWidth}
-        BtnWidth: ${btnWidth}
-      `);
-      if (prevWidth != currWidth) {
-        if (currWidth === btnWidth) {
-          props.setOwnClasses(["expand-options", "active", "expand-complete"]);
-          // Add "ring-expand" class for ring transition animation.
-          setRingClasses(["ring-expand"]);
-          if (!posAlreadySet) {
-            setPosAlreadySet(true);
-            setCirclePos(pos => {
-              let info = circleRef.getBoundingClientRect();
-              return {
-                ...pos,
-                x: info.x,
-                y: info.y,
-                width: info.width,
-                height: info.height
-              };
-            });
-          }
-        } else props.setOwnClasses(["expand-options"]);
-      }
-      setPrevWidth(currWidth);
+      // getBoundingClientRect() may not always return the same values. errTolerance
+      // is used to account for the tolerable difference between the values.
+      let errTolerance = 1;
+      if (Math.abs(currWidth - fullWidth) > errTolerance) {
+        props.setOwnClasses(["expand-options", "active", "expand-complete"]);
+        // Add "ring-expand" class to activate ring transition animation.
+        setRingClasses(["ring-expand"]);
+        if (!posAlreadySet) {
+          setPosAlreadySet(true);
+          setCirclePos(pos => {
+            let info = circleRef.getBoundingClientRect();
+            return {
+              ...pos,
+              x: info.x,
+              y: info.y,
+              width: info.width,
+              height: info.height
+            };
+          });
+        }
+      } else props.setOwnClasses(["expand-options"]);
     }
   }
 
@@ -191,7 +183,10 @@ export default function SelectOptionsButton(props) {
     }
   }, [circleRef]);
 
-  // console.log("rendering selectoptions button");
+  useEffect(() => {
+    setFullWidth(self.current.getBoundingClientRect().width);
+  }, []);
+
   return (
     <div ref={self} className="button-container">
       <MenuButton
