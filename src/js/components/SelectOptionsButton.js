@@ -105,6 +105,11 @@ export default function SelectOptionsButton(props) {
       let currWidth = Math.floor(self.current.getBoundingClientRect().width);
       // One onTransitionEnd event is fired for every property. We only care when
       // the width of the button changes.
+      alert(`
+        PrevWidth: ${prevWidth}
+        CurrWidth: ${currWidth}
+        BtnWidth: ${btnWidth}
+      `);
       if (prevWidth != currWidth) {
         if (currWidth === btnWidth) {
           props.setOwnClasses(["expand-options", "active", "expand-complete"]);
