@@ -33,7 +33,10 @@ export default function Dashboard(props) {
             role="button"
             className="close-button"
           ></div>
-          <p>Thank you for trying my game!</p>
+          <p>
+            This page is currently under construction... Click to upper right
+            hand circle to close this modal.
+          </p>
         </div>
         <div className="dashboard">
           <StartPairsButton
